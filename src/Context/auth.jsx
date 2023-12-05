@@ -12,12 +12,16 @@ const AuthProvider = ({children}) => {
     useEffect(()=>{
       if(auth){
        return ()=>{
-        onAuthStateChanged(auth, user=>{
-            setUser(user);
-            setLoading(false);
-       });
-      }
+        try {
+          onAuthStateChanged(auth, user=>{
+              setUser(user);
+              setLoading(false);
+         });
+        } catch (error) {
+          console.log(error);
+        }
     }
+  }
     },[]);
     
     if(loading){

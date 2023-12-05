@@ -23,6 +23,7 @@ const [loading,setLoading]=useState(false);
         validationSchema: signUpShema,
         onSubmit: async(value,action)=>{
           try {
+            setLoading(true);
             const userSignUpData = await createUserWithEmailAndPassword(
               auth,
               value.email,
@@ -113,7 +114,7 @@ const [loading,setLoading]=useState(false);
         }
       </div>
       <div className='sumbit-button'>
-        <button type='submit' onClick={()=> setLoading(true)}>{loading ? 'Creating...' : 'SignUp'}</button>
+        <button type='submit' >{loading ? 'Creating...' : 'SignUp'}</button>
       </div>
     </form>
 

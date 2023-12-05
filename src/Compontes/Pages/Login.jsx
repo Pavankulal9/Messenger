@@ -26,11 +26,12 @@ const [loading,setLoading]=useState(false);
         validationSchema: loginValidation,
         onSubmit: async(value,action)=>{
           try {
+            setLoading(true);
             const userSignUpData = await signInWithEmailAndPassword(
               auth,
               value.email,
               value.password,
-              );
+            );
               
             await updateDoc(doc(db,'users', userSignUpData.user.uid),{
                 isOnline: true,
@@ -87,7 +88,7 @@ const [loading,setLoading]=useState(false);
          }
       </div>
       <div className='submite-button'>
-        <button type='submit'onClick={()=> setLoading(true)}>{loading? 'Logging...':'Login'}</button>
+        <button type='submit'>{loading? 'Logging...':'Login'}</button>
       </div>
     </form>
 

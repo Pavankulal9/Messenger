@@ -18,8 +18,8 @@ const [loading,setLoading]=useState(false);
     password:'',
     confirm_password:'',
  }
- const playNoti = new Audio(wav)
 
+ const playNoti = new Audio(wav);
 
     const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
         initialValues: initialValues,
@@ -47,7 +47,9 @@ const [loading,setLoading]=useState(false);
           setError(error.message.slice(9));
          }
         }
-    })
+    });
+
+    
   return (
     <div className="signUp-contanier">
     <form onSubmit={handleSubmit}>
@@ -84,7 +86,7 @@ const [loading,setLoading]=useState(false);
             error && <p>{error}</p>
          }
       </div>
-      <div className="btn">
+      <div className='submite-button'>
         <button type='submit'onClick={()=> setLoading(true)}>{loading? 'Logging...':'Login'}</button>
       </div>
     </form>

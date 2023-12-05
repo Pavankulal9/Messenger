@@ -1,42 +1,30 @@
-import { onSnapshot,collection,doc, Timestamp, setDoc, getDoc} from 'firebase/firestore'
-import React, { useContext, useEffect, useState } from 'react'
-import { auth, db } from '../../firebase'
-import { useSelector } from 'react-redux'
-import { AuthContext } from '../../Context/auth'
+import {doc, Timestamp, setDoc} from 'firebase/firestore'
+import React, {useEffect, useState } from 'react'
+import { db } from '../../firebase'
+import { useDispatch, useSelector } from 'react-redux'
 import profile from '../../Assets/Profile1.png'
 import logo from '../../Assets/logo.webp'
 import { toast } from 'react-hot-toast'
+import { getCurrentUserDetails, getFriendRequest } from '../../apiCalls'
+
 const AddUser = () => {
-    const {user}=useContext(AuthContext);
-    const {UserList} = useSelector(state=> state.userDetails)
+    const {UserList,currentUserDetails} = useSelector(state=> state.userDetails)
 
 
     const [searchText, setSearchText]= useState('');
     const [requestData,setRequestdata]= useState([]);
     const [users,setUsers]= useState();
-    const [authUser,setAuthUser]= useState();
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-         if(user){
+      if(currentUserDetails){
 
-          getDoc(doc(db,'users',auth.currentUser.uid)).then(docSnap=>{
-            setAuthUser(docSnap.data());
-          });
+      getCurrentUserDetails(currentUserDetails.uid,dispatch);
 
-      const requestRef = collection(db,'Friend-Request');
-      const unsub=onSnapshot(requestRef, querrySnapShot=>{
-        let data=[]
-      querrySnapShot.forEach((doc)=>{
-        data.push(doc.data());
-      })
-      setRequestdata(data);
-     })
-     return ()=> unsub();
+      getFriendRequest(setRequestdata);
     }
+  },[currentUserDetails,dispatch]);
 
-  },[user]);
-
-   
 
     const SearchedUserList = (e)=>{
      setSearchText(e.target.value)
@@ -46,25 +34,27 @@ const AddUser = () => {
 
 
     const SendRequestHandler = async(User)=>{
-        const id = `${authUser.uid + " " + User.uid}`
-     try {
+      const id = `${currentUserDetails.uid + " " + User.uid}`;
+       try {
       await setDoc(doc(db,'Friend-Request',id),{
-        From: authUser.uid,
+        From: currentUserDetails.uid,
         to: User.uid,
-        name: authUser.name,
-        avatar: authUser.avatar ? authUser.avatar : '',
+        name: currentUserDetails.name,
+        avatar: currentUserDetails.avatar ? currentUserDetails.avatar : '',
         sentAt: Timestamp.fromDate(new Date()),
         status:'Request',
+      })
+      .catch((err)=>{
+        console.log(err);
       });
+
       toast.success('Request sent succesfully');
      } catch (error) {
       console.log(error);
      }
     }
 
-    const selectedUser =(user)=>{
-      
-    }
+    
   return (
     <div className='request'>
       <div className='search-user'>
@@ -73,7 +63,7 @@ const AddUser = () => {
         {
         users && searchText.length > 1 &&
           users.map((user,index)=>(
-            <div className={`user`} key={index} onClick={selectedUser(user)}>
+            <div className={`user`} key={index}>
             <div className="user-container">
                 <div className="user-details">
                 <img src={user.avatar || profile} alt="profile" />
@@ -81,7 +71,7 @@ const AddUser = () => {
                 <div className='user-name'>
                 <h3>{user.name}</h3>
                 <p>{user.email}</p>
-                <RequestedUser user={user} requestData={requestData} sendRequest={SendRequestHandler} authUser={authUser}/>
+                <RequestedUser user={user} requestData={requestData} sendRequest={SendRequestHandler} currentUserDetails={currentUserDetails} />
                 </div> 
             </div>
             </div>
@@ -103,9 +93,9 @@ const AddUser = () => {
     </div>
   )
 }
-const RequestedUser =({user,requestData,sendRequest,authUser})=>{
-  const NonRequestedUser= requestData.filter((data)=> authUser.uid === data.From && user.uid === data.to);
-  console.log(NonRequestedUser);
+
+const RequestedUser =({user,requestData,sendRequest,currentUserDetails})=>{
+  const NonRequestedUser= requestData.filter((data)=> currentUserDetails.uid === data.From && user.uid === data.to);
     return (
       <div className='request-Button'>
         {
@@ -118,4 +108,5 @@ const RequestedUser =({user,requestData,sendRequest,authUser})=>{
     )
   
 }
+
 export default AddUser;

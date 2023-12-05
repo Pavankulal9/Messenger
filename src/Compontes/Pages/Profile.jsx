@@ -1,58 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import profile from '../../Assets/Profile1.png'
 import {FiCamera} from 'react-icons/fi'
-import { getDoc,doc, updateDoc} from 'firebase/firestore';
-import { auth, db ,storage} from '../../firebase';
-import { getDownloadURL, uploadBytes,deleteObject,ref } from 'firebase/storage';
 import Loading from './Loading';
+import { getCurrentUserDetails, uploadImage } from '../../apiCalls';
+import { useDispatch, useSelector } from 'react-redux';
 const Profile = () => {
-  const [img,setImg]= useState('');
-  const [user,setUser]= useState('');
-  
 
-  useEffect(()=>{
-    getDoc(doc(db,'users',auth?.currentUser?.uid)).then(docSnap=>{
-      if(docSnap.exists){
-        setUser(docSnap.data());
-      }
-     });
+  const dispatch = useDispatch();
+  const {currentUserDetails}= useSelector((state)=> state.userDetails);
 
-     if(img){
-      const uploadImage=async()=>{
-        const imgRef = ref(storage,`avatar/${new Date().getTime()} - ${img.name}`);
-         try {
-          if(user.avatarPath){
-            await deleteObject(ref(storage, user.avatarPath))
-          }
-          const snap = await uploadBytes(imgRef,img);
-          const url = await getDownloadURL(ref(storage,ref(storage, snap.ref.fullPath)));
-          await updateDoc(doc(db,'users',auth.currentUser.uid),{
-            avatar: url,
-            avatarPath: snap.ref.fullPath
-          });
-          setImg('');
-         } catch (error) {
-          console.log(error)
-         }
-        }
-        uploadImage();
-     }
-  },[img,user.avatarPath,user]);
+ useEffect(()=>{
+  getCurrentUserDetails(currentUserDetails.uid,dispatch);
+ },[currentUserDetails]);
 
-  return user?(
+  const setProfilePicHandler = async(e)=>{
+    const image = e.target.files[0];
+    uploadImage(currentUserDetails,image);
+  }
+
+  return currentUserDetails?(
     <section className='profile-body'>
        <div className='profile-container' >
          <div className="img-container">
-          <img src={user.avatar || profile} alt="profile" />
+          <img src={currentUserDetails.avatar || profile} alt="profile" />
           <FiCamera />
           <input type="file"
           accept='image/*'
-          onChange={e=> setImg(e.target?.files[0])} />
+          onChange={e=> setProfilePicHandler(e)} />
          </div>
        <div className="user-info">
-        <h3>Name: {user?.name}</h3>
-        <h4>Email: {user?.email}</h4>
-        <p>Joined: {user?.createdAt.toDate().toString().slice(0,15)}</p>
+        <h3>Name: {currentUserDetails.name}</h3>
+        <h4>Email: {currentUserDetails.email}</h4>
+        <p>Joined: {currentUserDetails.createdAt.toDate().toString().slice(0,15)}</p>
        </div>
        </div>
     </section>

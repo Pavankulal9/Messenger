@@ -41,7 +41,7 @@ const [loading,setLoading]=useState(false);
               action.resetForm();
               toast.success("Register sucessfull!",{ style:{color:'white',background: '#4158D0',
               backgroundImage: 'linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)'}});
-              navigate('/login');
+              navigate('/');
     
          } catch (error) {
           setLoading(false)
@@ -112,7 +112,7 @@ const [loading,setLoading]=useState(false);
           error && <p>{error}</p>
         }
       </div>
-      <div className="btn">
+      <div className='sumbit-button'>
         <button type='submit' onClick={()=> setLoading(true)}>{loading ? 'Creating...' : 'SignUp'}</button>
       </div>
     </form>

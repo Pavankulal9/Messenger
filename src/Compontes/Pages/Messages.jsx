@@ -1,40 +1,38 @@
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react'
 import { db } from '../../firebase';
+import { useSelector } from 'react-redux';
 
-const Messages = ({user1,chat}) => {
+const Messages = () => {
+    const {chat,currentUserDetails} = useSelector((state) => state.userDetails);
     const scrollRef= useRef();
-    const [messages,setMessages]=useState([]);
-
+    const [messages,setMessages]=useState();
     
-
     useEffect(()=>{
-      const user2= chat.uid;
-       
-       const id = user1 > user2 ? `${user1+" "+user2}`:`${user2+" "+user1}`;
-       
+      setMessages();
+      const id = currentUserDetails.uid > chat.uid ? `${currentUserDetails.uid+" "+chat.uid}`:`${chat.uid+" "+currentUserDetails.uid}`;
+      
         const msgRef = collection(db,'Messages',id,'Chat')
         const q = query(msgRef,orderBy('createdAt','asc'));
          const unsub = onSnapshot(q, querrySnapShot=>{
          let messages=[];
          querrySnapShot.forEach((doc)=>{
            messages.push(doc.data());
-           console.log(user2);
           });
            setMessages(messages);
         });
         
         return ()=> unsub();
-      },[chat.uid,user1])
+        
+      },[chat.uid,currentUserDetails.uid]);
 
       useEffect(()=>{
         scrollRef.current?.scrollIntoView({behavior: 'smooth'});
       },[messages]);
 
-    return (
-    messages.map((message)=>(
-      <div className={`message-wrapper ${message.from === user1? 'mine':''}`} ref={scrollRef}>
-        <div className={`${messages.from === user1 ? 'myself': 'other'}`}>
+    return messages&& messages.map((message,index)=>(
+      <div className={`message-wrapper ${message.from === currentUserDetails.uid? 'mine':''}`} ref={scrollRef} key={index}>
+        <div className={`${messages.from === currentUserDetails.uid ? 'myself': 'other'}`}>
           {message.media ? <img src={message.media} alt={message.text}/>:null}
           <p>
            {message.text}
@@ -43,7 +41,6 @@ const Messages = ({user1,chat}) => {
         </div>
       </div>
     ))
-    )
 }
 
 export default Messages

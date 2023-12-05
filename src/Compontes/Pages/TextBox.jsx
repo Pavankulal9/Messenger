@@ -1,60 +1,79 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {BiUpload,BiSend} from 'react-icons/bi';
 import { db, storage } from '../../firebase';
 import { Timestamp, addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
-const TextBox = ({chat,user1}) => {
+const TextBox = () => {
+  const {chat,currentUserDetails} = useSelector((state) => state.userDetails);
   const [text,setText]=useState('');
-    const [img,setImg]=useState('');
+  const [img,setImg]=useState();
+  const [previewImage,setPreviewImage] = useState();
+
+  useEffect(()=>{
+      setImg();
+      setPreviewImage();
+  },[chat]);
+  console.log(img);
+
+  const selectImageHandler = (e)=>{
+    const img = e.target.files[0];
+    setImg(img);
+    setPreviewImage(URL.createObjectURL(img));
+  }
 
   const handleSubmit= async(e)=>{
     e.preventDefault();
     const user2= chat.uid;
 
-    const id = user1 > user2 ? `${user1+" "+user2}`:`${user2+" "+user1}`;
+    const id = currentUserDetails.uid > user2 ? `${currentUserDetails.uid+" "+user2}`:`${user2+" "+currentUserDetails.uid}`;
 
     let url;
     if(img){
-      const imgRef= ref(storage,`images/${new Date().getTime} - ${img.name}`);
+      const imgRef= ref(storage,`images/${new Date().getTime()} - ${img.name}`);
       const snap = await uploadBytes(imgRef, img);
       const dUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
       url= dUrl;
       setImg('');
     }
 
-    if(text===' '||text===''){
-          
+    if(text===' '&& img === ''){
+        return ;
+    }else if(text === ''&& img === ''){
+      return ;
     }else{
-   await addDoc(collection(db,'Messages',id,'Chat'),{
+    setText('');
+    await addDoc(collection(db,'Messages',id,'Chat'),{
     text,
-    from: user1,
+    from: currentUserDetails.uid,
     to: user2,
     createdAt: Timestamp.fromDate(new Date()),
     media: url || '',
    });
-   
+
    await setDoc(doc(db,'LastMessage',id),{
     text,
-    from: user1,
+    from: currentUserDetails.uid,
     to: user2,
     createdAt: Timestamp.fromDate(new Date()),
     media: url || '',
     unread: true
    });
   }
-   setText('');
+   
   }
   
   return (
     <form className='message-form' onSubmit={handleSubmit}>
+      <img src={previewImage} alt="selectedImage" className={img?'seletedImg':'unseletedImg'} />
        <label htmlFor="img">
         <BiUpload/>
       </label>
       <input type="file" 
       files={img}
       accept='image/*'
-      onChange={(e)=> setImg(e.target.files[0])}
+      onChange={(e)=> selectImageHandler(e)}
       id='img'
       style={{display: 'none'}}
       />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {useFormik} from 'formik';
 import {toast} from 'react-hot-toast';
 import {signInWithEmailAndPassword} from "firebase/auth";
@@ -7,8 +7,10 @@ import { loginValidation } from '../../Schemas/loginValidation';
 import { auth, db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 import wav from '../../Assets/notification.wav'
+import { AuthContext } from '../../Context/auth';
 const Login = () => {
 
+const {setUser} = useContext(AuthContext);
 const navigate = useNavigate();
 const [error,setError]=useState(false);
 const [loading,setLoading]=useState(false);
@@ -27,13 +29,13 @@ const [loading,setLoading]=useState(false);
         onSubmit: async(value,action)=>{
           try {
             setLoading(true);
-            const userSignUpData = await signInWithEmailAndPassword(
+            const userLoginData = await signInWithEmailAndPassword(
               auth,
               value.email,
               value.password,
             );
               
-            await updateDoc(doc(db,'users', userSignUpData.user.uid),{
+            await updateDoc(doc(db,'users', userLoginData.user.uid),{
                 isOnline: true,
               })
               setError(false);
@@ -42,7 +44,8 @@ const [loading,setLoading]=useState(false);
               toast.success("Login sucessfull",{ style:{color:'white',background: '#4158D0',
               backgroundImage: 'linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)'}});
               playNoti.play();
-               navigate('/');
+              setUser(userLoginData.user);
+              navigate('/');
          } catch (error) {
           setLoading(false);
           setError(error.message.slice(9));

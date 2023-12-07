@@ -15,7 +15,6 @@ const TextBox = () => {
       setImg();
       setPreviewImage();
   },[chat]);
-  console.log(img);
 
   const selectImageHandler = (e)=>{
     const img = e.target.files[0];

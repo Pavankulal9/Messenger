@@ -8,6 +8,7 @@ const  AcceptedUser = createAction ('AcceptedUser');
 const AddedIfNotPresent = createAction('AddedIfNotPresent');
 const addChats = createAction('addChats');
 const clearCurrentUserDetails = createAction('clearCurrentUserDetails');
+const addCurrentUserId =  createAction('addCurrentUserId');
 
 const initialState = {
     currentUserDetails: null,
@@ -27,6 +28,9 @@ export const customReducer = createReducer(initialState,(builder)=>{
         }else{
          state.UserList.push(user);
      }
+   })
+   .addCase(addCurrentUserId,(state,action)=>{
+     state.currentUserId = action.payload;
    })
 
   .addCase(setCurrentUserDeatils,(state,action)=>{

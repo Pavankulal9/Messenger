@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {useFormik} from 'formik';
 import {toast} from 'react-hot-toast';
 import {createUserWithEmailAndPassword} from "firebase/auth";
@@ -6,9 +6,11 @@ import {setDoc,doc,Timestamp} from 'firebase/firestore';
 import { signUpShema } from '../../Schemas';
 import { auth, db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Context/auth';
 const Signup = () => {
 
 const navigate = useNavigate();
+const {setUser}= useContext(AuthContext);
 const [error,setError]=useState(false);
 const [loading,setLoading]=useState(false);
  const initialValues ={
@@ -42,11 +44,11 @@ const [loading,setLoading]=useState(false);
               action.resetForm();
               toast.success("Register sucessfull!",{ style:{color:'white',background: '#4158D0',
               backgroundImage: 'linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)'}});
+              setUser(userSignUpData.user);
               navigate('/');
-    
-         } catch (error) {
-          setLoading(false)
-          setError(error.message.slice(9));
+            } catch (error) {
+            setLoading(false)
+            setError(error.message.slice(9));
          }
         }
     })
@@ -113,8 +115,8 @@ const [loading,setLoading]=useState(false);
           error && <p>{error}</p>
         }
       </div>
-      <div className='sumbit-button'>
-        <button type='submit' >{loading ? 'Creating...' : 'SignUp'}</button>
+      <div className='submite-button'>
+        <button type='submit'>{loading ? 'Creating...' : 'SignUp'}</button>
       </div>
     </form>
 

@@ -10,8 +10,6 @@ const AuthProvider = ({children}) => {
     const [loading,setLoading]=useState(true);
 
     useEffect(()=>{
-      if(auth){
-       return ()=>{
         try {
           onAuthStateChanged(auth, user=>{
               setUser(user);
@@ -19,9 +17,7 @@ const AuthProvider = ({children}) => {
          });
         } catch (error) {
           console.log(error);
-        }
-    }
-  }
+      }
     },[user]);
     
     if(loading){

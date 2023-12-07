@@ -2,7 +2,6 @@ import { collection, doc, getDoc, onSnapshot, query, updateDoc, where } from "fi
 import { db ,storage} from "./firebase";
 import { getDownloadURL, uploadBytes,deleteObject,ref } from 'firebase/storage';
 
-
 export const getCurrentUserDetails =async (userId,dispatch)=>{
    try {
       await getDoc(doc(db,'users',userId)).then(docSnap=>{  dispatch({
@@ -82,3 +81,5 @@ export const uploadImage= async(currentUserDetails,image)=>{
          console.log(error);
       }
    }
+
+   

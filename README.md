@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+## Messenger
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ Messenger is an React based web Application. The name of the application denotes that its and messaging or chatting app. In this appyou can send message or images to users with fast data transfer. This possible due to google powered database system known as Firebase. its prodives smooth authentication and much more.
+For more information you can check the features section below.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Feature 1:
+  Auntentication: First you have signup by providing deatils which are asked there. Once you signup no need to login again and again. Auntentication is well handled by firebase.
+  
+- Feature 2:
+  Add User to chat list: After Signup you can see an "add user" button a search page will open. There you can search any other user it may be your friend , family member or any other person make sure he is signup too. After providing the eamil or his username in search bar a list users with reatabel user name will display. Click on 'send request' Button whom you want to send the request request list box. if he accepts the request then he will be added to your chat list.   
+- Feature 3:
+  Request List box: if anyone send you friend request then a red dot will appear on bellicon on the right corner of the page. Click on it will open request list box and all the request will be shown you can accept or reject the request.
+- Feature 4:
+  Chat with users: After accepting a request sent to you the user name and profile pic. Click on the user and at the right message box will open then you start your conversation.
+- Feature 5:
+   Change Profile: On the top right there is 'Profile' button. Click on it and will show your email details and your user id. there you can see a default profile picture by clicking on it you can select image from your gallery and set it as your profle Picture.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- JavaScript
+- React
+- Frontend-tools:React-Redux, Redux-Toolkit, React Router Dom , Sass
+- Backend & API : firebase
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Screenshots
+- Main Page:
+ <img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271760/Messenger/main_page_cudwzg.png"/>
+ 
+- Authentication Page:
+<img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271776/Messenger/Signup_page_crzets.png"/>
+<img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271780/Messenger/Login_page_pe2oki.png"/>
 
-### `npm test`
+- Home Page
+  <img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271780/Messenger/Login_page_pe2oki.png"/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Profile Page:
+  <img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271784/Messenger/Profile_page_fchefg.png"/>
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Add user Page:
+   <img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271784/Messenger/Add_user_page_qayeqr.png"/>
+   
+- Request Box page:
+   <img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271782/Messenger/Request_list_box_cxxilp.png"/>
+   
+- Message box :
+  <img src="https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271799/Messenger/message_page_os6axs.png"/>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project is licensed under the [MIT License](LICENSE).
 
-### `npm run eject`
+## Reference
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+ if you want reference then you can watch is video[Farhan Farooq/Private chat app](https://www.youtube.com/watch?v=fdcruaIiQxc).
+ Added redux toolkite by refering this video[6 Pack Programmer/redux_tootkit](https://www.youtube.com/watch?v=pBgQhZcQxMw).
+ 
+## Contact
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [pavan] - [pawankulal9@gmail.com]
+- [LinkedIn](https://www.linkedin.com/in/pavan-kulal-0a105b268/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+#React#ReactRedux#ReduxToolkit#Sass 🚀

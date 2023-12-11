@@ -36,7 +36,7 @@ Messenger is a React-based web application. The name of the application denotes 
   ![Login Page](https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271780/Messenger/Login_page_pe2oki.png)
 
 - **Home Page:**
-  ![Home Page](https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271780/Messenger/Login_page_pe2oki.png)
+  ![Home Page](https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271782/Messenger/Home_page_wg7xel.png)
 
 - **Profile Page:**
   ![Profile Page](https://res.cloudinary.com/dnh2skxdh/image/upload/v1702271784/Messenger/Profile_page_fchefg.png)

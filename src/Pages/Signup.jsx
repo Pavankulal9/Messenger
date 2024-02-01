@@ -3,10 +3,10 @@ import {useFormik} from 'formik';
 import {toast} from 'react-hot-toast';
 import {createUserWithEmailAndPassword} from "firebase/auth";
 import {setDoc,doc,Timestamp} from 'firebase/firestore';
-import { signUpShema } from '../../Schemas';
-import { auth, db } from '../../firebase';
+import { signUpShema } from '../Schemas';
+import { auth, db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../Context/auth';
+import { AuthContext } from '../Hooks/auth';
 const Signup = () => {
 
 const navigate = useNavigate();

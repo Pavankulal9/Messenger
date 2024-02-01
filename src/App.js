@@ -1,15 +1,15 @@
 import React, { Suspense } from 'react';
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
-import './App.scss';
 import { Toaster } from 'react-hot-toast';
-import Navbar from './Compontes/Layouts/Navbar';
+import Navbar from './Layouts/Navbar';
 import { lazy } from 'react';
-const Signup= lazy(()=> import('./Compontes/Pages/Signup') )
-const Login= lazy(()=> import('./Compontes/Pages/Login') )
-const Home= lazy(()=> import('./Compontes/Pages/Home') )
-const Profile = lazy(()=> import('./Compontes/Pages/Profile') )
-const AddUser = lazy(()=> import('./Compontes/Pages/AddUser') )
-const FriendRequest= lazy(()=> import('./Compontes/Pages/FriendRequest') )
+import './style/App.scss';
+const Signup= lazy(()=> import('./Pages/Signup') )
+const Login= lazy(()=> import('./Pages/Login') )
+const Home= lazy(()=> import('./Pages/Home') )
+const Profile = lazy(()=> import('./Pages/Profile') )
+const AddUser = lazy(()=> import('./Pages/AddUser') )
+const FriendRequest= lazy(()=> import('./Pages/FriendRequest') )
 
 function App() {
   return (

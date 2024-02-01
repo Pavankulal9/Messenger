@@ -3,11 +3,11 @@ import {useFormik} from 'formik';
 import {toast} from 'react-hot-toast';
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {updateDoc,doc} from 'firebase/firestore';
-import { loginValidation } from '../../Schemas/loginValidation';
-import { auth, db } from '../../firebase';
+import { loginValidation } from '../Schemas/loginValidation';
+import { auth, db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import wav from '../../Assets/notification.wav'
-import { AuthContext } from '../../Context/auth';
+import wav from '../Assets/notification.wav'
+import { AuthContext } from '../Hooks/auth';
 const Login = () => {
 
 const {setUser} = useContext(AuthContext);

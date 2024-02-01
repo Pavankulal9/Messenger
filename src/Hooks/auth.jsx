@@ -1,7 +1,7 @@
 import React,{useState,useEffect, createContext} from 'react'
 import {onAuthStateChanged} from 'firebase/auth';
 import {auth} from '../firebase';
-import Loading from '../Compontes/Pages/Loading';
+import Loading from '../Pages/Loading';
 
 export const AuthContext = createContext();
 

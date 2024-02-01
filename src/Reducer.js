@@ -66,7 +66,7 @@ export const customReducer = createReducer(initialState,(builder)=>{
       state.chat = action.payload;
    })
 
-   .addCase(clearCurrentUserDetails,(state,action)=>{
+   .addCase(clearCurrentUserDetails,(state)=>{
     state.currentUserDetails = null;
    });
    

@@ -1,8 +1,8 @@
 import React, { useEffect} from 'react';
-import profile from '../../Assets/Profile1.png'
+import profile from '../Assets/Profile1.png'
 import {FiCamera} from 'react-icons/fi'
 import Loading from './Loading';
-import { getCurrentUserDetails, uploadImage } from '../../apiCalls';
+import { getCurrentUserDetails, uploadImage } from '../apiCalls';
 import { useDispatch, useSelector } from 'react-redux';
 const Profile = () => {
 
@@ -11,7 +11,7 @@ const Profile = () => {
 
  useEffect(()=>{
   getCurrentUserDetails(currentUserDetails.uid,dispatch);
- },[currentUserDetails]);
+ },[currentUserDetails.uid,dispatch]);
 
   const setProfilePicHandler = async(e)=>{
     const image = e.target.files[0];

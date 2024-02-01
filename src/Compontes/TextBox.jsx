@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import React, { useEffect, useState } from 'react'
 import {BiUpload,BiSend} from 'react-icons/bi';
-import { db, storage } from '../../firebase';
+import { db, storage } from '../firebase';
 import { Timestamp, addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 

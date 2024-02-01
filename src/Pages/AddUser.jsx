@@ -1,15 +1,14 @@
-import {doc, Timestamp, setDoc} from 'firebase/firestore'
-import React, {useEffect, useState } from 'react'
-import { db } from '../../firebase'
 import { useDispatch, useSelector } from 'react-redux'
-import profile from '../../Assets/Profile1.png'
-import logo from '../../Assets/logo.webp'
+import profile from '../Assets/Profile1.png'
+import logo from '../Assets/logo.webp'
 import { toast } from 'react-hot-toast'
-import { getCurrentUserDetails, getFriendRequest } from '../../apiCalls'
+import { getCurrentUserDetails, getFriendRequest } from '../apiCalls'
+import { useEffect, useState } from 'react'
+import { Timestamp, doc, setDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 
 const AddUser = () => {
     const {UserList,currentUserDetails} = useSelector(state=> state.userDetails)
-
 
     const [searchText, setSearchText]= useState('');
     const [requestData,setRequestdata]= useState([]);
@@ -18,9 +17,7 @@ const AddUser = () => {
 
     useEffect(()=>{
       if(currentUserDetails){
-
       getCurrentUserDetails(currentUserDetails.uid,dispatch);
-
       getFriendRequest(setRequestdata);
     }
   },[currentUserDetails,dispatch]);
@@ -36,7 +33,7 @@ const AddUser = () => {
     const SendRequestHandler = async(User)=>{
       const id = `${currentUserDetails.uid + " " + User.uid}`;
        try {
-      await setDoc(doc(db,'Friend-Request',id),{
+       await setDoc(doc(db,'Friend-Request',id),{
         From: currentUserDetails.uid,
         to: User.uid,
         name: currentUserDetails.name,

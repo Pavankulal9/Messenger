@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {signOut} from 'firebase/auth'
 import { Link, useNavigate } from 'react-router-dom';
-import { auth,db } from '../../firebase';
+import { auth,db } from '../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import {BiBell} from 'react-icons/bi'
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthContext } from '../../Context/auth';
-import { getFriendRequest } from '../../apiCalls';
+import { AuthContext } from '../Hooks/auth';
+import { getFriendRequest } from '../apiCalls';
 const Navbar = () => {
 
     const {user} = useContext(AuthContext);

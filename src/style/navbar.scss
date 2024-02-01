@@ -1,0 +1,62 @@
+//? NavBar Style
+.navbar{
+    width: 100%;
+    height: 7%;
+    background-color: rgb(73, 73, 73);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > h1{
+      font-weight: 700;
+      margin-left: 0.5rem;
+      background: -webkit-linear-gradient(#f9f8f8, #505050);
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      &:hover{
+        background: -webkit-linear-gradient(#4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      > a{
+        font-size: 2rem;
+      }
+    }
+    > ul{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-right: 0.5rem;
+      > button{
+        border: none;
+        outline: none;
+        padding: 0.5rem;
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 400;
+        border-radius: 5px;
+        background-color: #4158D0;
+        background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        transition: 0.5s;
+        &:hover{
+          background-color: #4158D0;
+          background-image: linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+        }
+      }
+      > a{
+        > svg{
+          font-size: 1.2rem;
+          color: gold;
+        }
+      }
+    }
+  }
+  
+  .noti{
+    position: absolute;
+    top: 1.3%;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background-color: red;
+  }
+  

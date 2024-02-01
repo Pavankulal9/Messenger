@@ -1,0 +1,82 @@
+//? Media Queries 
+@media(max-width:777px){
+  .signUp-contanier{
+    > form{
+      width: 100%;
+    }
+  }
+}
+
+@media(max-width:750px){
+  .navbar{
+    padding: 0.5rem;
+    >h1{
+      > a{
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .home{
+    position: relative;
+    grid-template-columns: 1fr;
+  }
+  .message-body{
+    position: absolute;
+    left: 0;
+  }
+
+  .message-user{
+    > svg{
+      display: block;
+      margin-left: 0.5rem;
+      font-weight: bold;
+    }
+    > a{
+     > img{
+        width: 45px;
+        height: 45px;
+     }
+    }
+  }
+
+  .close{
+    display: none;
+  }
+  .open{
+    display: block;
+  }
+
+  .request{
+    grid-template-columns: 1fr;
+  }
+
+  .animation{
+    display: none;
+  }
+
+  .message-form input{
+    width: 70vw;
+  }
+  .container{
+    width: 100%;
+  }
+
+  .seletedImg{
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid greenyellow;
+  }
+  .btn{
+    button{
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  .profile-container{
+    width: 80%;
+    flex-direction: column;
+    align-items: center;
+  }
+}

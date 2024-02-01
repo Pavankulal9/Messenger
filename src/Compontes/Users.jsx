@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import profile from "../../Assets/Profile1.png";
+import profile from "../Assets/Profile1.png";
 import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../firebase";
 import { useSelector } from "react-redux";
 import LastMessage from "./LastMessage";
 
-const User = ({handleSelectedUser,user}) => {
+const User = ({user,handleSelectedUser}) => {
 
   const {UserList,chat,currentUserDetails} = useSelector((state) => state.userDetails);
   const [lastMessage, setLastMessage] = useState();

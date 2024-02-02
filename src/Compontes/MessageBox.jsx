@@ -25,7 +25,8 @@ const MessageBox = ({back,setBack}) => {
             <TextBox/>
         </div>
     :
-        <div className='animation'><img src={logo} alt="logo" width={200} />
+        <div className='animation'>
+            <img src={logo} alt="logo" width={200} />
             <h1>Messenger</h1>
         </div>
         }

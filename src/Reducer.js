@@ -9,12 +9,13 @@ const AddedIfNotPresent = createAction('AddedIfNotPresent');
 const addChats = createAction('addChats');
 const clearCurrentUserDetails = createAction('clearCurrentUserDetails');
 const addCurrentUserId =  createAction('addCurrentUserId');
-
+const intialScreenRender = createAction('intialScreenRender')
 const initialState = {
     currentUserDetails: null,
     UserList: [],
     AddedUsers: [],
     chat:'',
+    intialScreenRender: true
 }
 
 export const customReducer = createReducer(initialState,(builder)=>{
@@ -36,7 +37,10 @@ export const customReducer = createReducer(initialState,(builder)=>{
   .addCase(setCurrentUserDeatils,(state,action)=>{
     state.currentUserDetails = action.payload;
   })
-
+  
+  .addCase(intialScreenRender,(state)=>{
+    state.intialScreenRender = false;
+  })
 
    .addCase(AcceptedUser,(state,action)=>{
     state.AddedUsers.splice(0, state.AddedUsers.length);

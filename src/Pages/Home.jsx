@@ -4,12 +4,13 @@ import { useDispatch, useSelector} from 'react-redux';
 import { getAllUsersDetails, getCurrentUserDetails, getUserFriendList } from '../apiCalls';
 import AuthUserComp from '../Compontes/AuthUserComp';
 import UnAuthUserComp from '../Compontes/UnAuthUserComp';
+import IntroScreen from '../Compontes/IntroScreen';
 
 const Home = () => {
   const {user}= useContext(AuthContext);
-  const {currentUserDetails} = useSelector((state) => state.userDetails);
+  const {currentUserDetails,intialScreenRender} = useSelector((state) => state.userDetails);
   const dispatch = useDispatch();
-  
+   
   const [userFriendList,setUserFriendList] = useState([]);
  
 
@@ -18,20 +19,27 @@ const Home = () => {
           getCurrentUserDetails(user.uid,dispatch);
           getAllUsersDetails(user.uid,dispatch);
           getUserFriendList(user.uid,setUserFriendList);
+          setTimeout(()=>{
+             dispatch({
+              type: 'intialScreenRender'
+          });
+          },3000);
       }
   },[user,dispatch]);
 
     
-  
-
-     if(user&&userFriendList&&currentUserDetails){
-      return (
+     if(intialScreenRender){
+       return(
+        <IntroScreen/>
+       )
+     }else if(userFriendList&&currentUserDetails){
+       return (
          <AuthUserComp userFriendList={userFriendList} currentUserDetails={currentUserDetails}/>
-        )
+       )
      }else{
        return (
         <UnAuthUserComp/>
-    )}
+     )}
   }
      
 

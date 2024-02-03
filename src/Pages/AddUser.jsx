@@ -61,16 +61,16 @@ const AddUser = () => {
         users && searchText.length > 1 &&
           users.map((user,index)=>(
             <div className={`user`} key={index}>
-            <div className="user-container">
-                <div className="user-details">
-                <img src={user.avatar || profile} alt="profile" />
-                </div>
-                <div className='user-name'>
-                <h3>{user.name}</h3>
-                <p>{user.email}</p>
-                <RequestedUser user={user} requestData={requestData} sendRequest={SendRequestHandler} currentUserDetails={currentUserDetails} />
-                </div> 
-            </div>
+              <div className="user-container">
+                  <div className="user-details">
+                    <img src={user.avatar || profile} alt="profile" />
+                  </div>
+                  <div className='user-name'>
+                    <h3>{user.name}</h3>
+                    <p>{user.email}</p>
+                    <RequestedUser user={user} requestData={requestData} sendRequest={SendRequestHandler} currentUserDetails={currentUserDetails} />
+                  </div> 
+              </div>
             </div>
             
           ))
@@ -103,7 +103,6 @@ const RequestedUser =({user,requestData,sendRequest,currentUserDetails})=>{
         }
       </div>
     )
-  
 }
 
 export default AddUser;

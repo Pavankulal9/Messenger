@@ -19,12 +19,12 @@ const Home = () => {
           getCurrentUserDetails(user.uid,dispatch);
           getAllUsersDetails(user.uid,dispatch);
           getUserFriendList(user.uid,setUserFriendList);
-          setTimeout(()=>{
-             dispatch({
-              type: 'intialScreenRender'
+        }
+        setTimeout(()=>{
+          dispatch({
+            type: 'intialScreenRender'
           });
-          },3000);
-      }
+        },2000);
   },[user,dispatch]);
 
     

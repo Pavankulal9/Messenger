@@ -9,8 +9,7 @@ import TextBox from './TextBox';
 
 const MessageBox = ({back,setBack}) => {
     const {chat} = useSelector((state) => state.userDetails);
-
-    console.log(back);
+    
   return (
     <section className={`message-body ${back? 'open':'close'}`}>
         {

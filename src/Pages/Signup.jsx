@@ -20,7 +20,7 @@ const [loading,setLoading]=useState(false);
     confirm_password:''
  }
 
-    const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
+ const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
         initialValues: initialValues,
         validationSchema: signUpShema,
         onSubmit: async(value,action)=>{
@@ -52,6 +52,7 @@ const [loading,setLoading]=useState(false);
          }
         }
     })
+  
   return (
     <div className="signUp-contanier">
     <form onSubmit={handleSubmit}>
@@ -119,7 +120,6 @@ const [loading,setLoading]=useState(false);
         <button type='submit'>{loading ? 'Creating...' : 'SignUp'}</button>
       </div>
     </form>
-
     </div>
   )
 }

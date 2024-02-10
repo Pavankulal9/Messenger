@@ -15,16 +15,17 @@ const Home = () => {
  
 
   useEffect(()=>{
-      if(user){
+    setTimeout(()=>{
+      dispatch({
+        type: 'intialScreenRender'
+      });
+    },3000);
+    
+    if(user){
           getCurrentUserDetails(user.uid,dispatch);
           getAllUsersDetails(user.uid,dispatch);
           getUserFriendList(user.uid,setUserFriendList);
-        }
-        setTimeout(()=>{
-          dispatch({
-            type: 'intialScreenRender'
-          });
-        },2000);
+    }
   },[user,dispatch]);
 
     

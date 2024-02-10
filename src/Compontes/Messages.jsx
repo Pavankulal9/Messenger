@@ -2,6 +2,7 @@ import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react'
 import { db } from '../firebase';
 import { useSelector } from 'react-redux';
+import PreLoadImage from './PreLoadImage';
 
 const Messages = () => {
     const {chat,currentUserDetails} = useSelector((state) => state.userDetails);
@@ -26,8 +27,8 @@ const Messages = () => {
 
       useEffect(()=>{
         if(messages){
-          scrollRef.current?.scrollIntoView({behavior: 'smooth'});
-         }
+          scrollRef.current?.scrollIntoView({behavior: 'smooth',block: "end", inline: "nearest"});
+        }
       },[messages]);
 
     return (
@@ -36,7 +37,7 @@ const Messages = () => {
         messages&& messages.map((message,index)=>
         <div className={`message-wrapper ${message.from === currentUserDetails.uid? 'mine':''}`} ref={scrollRef} key={index}>
           <div className={`${messages.from === currentUserDetails.uid ? 'myself': 'other'}`}>
-            {message.media ? <img src={message.media} alt={message.text}/>:null}
+            {message.media ? <PreLoadImage src={message.media}/>:null}
             <p>
              {message.text}
              <small>{message.createdAt?.toDate(new Date().getTime()).toString().slice(16,21)}</small>

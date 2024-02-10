@@ -1,14 +1,16 @@
 import { doc, getDoc,setDoc,updateDoc,deleteDoc,Timestamp} from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { auth, db } from '../firebase';
 import profile from '../Assets/Profile1.png'
 import { useDispatch, useSelector} from 'react-redux';
 import { toast } from 'react-hot-toast';
 import wav from '../Assets/notification.wav';
 import { getCurrentUserDetails, getFriendRequest } from '../apiCalls';
+import Errorpage from './Errorpage';
+import { AuthContext } from '../Hooks/auth';
 
 const FriendRequest = () => {
-  
+  const {user} = useContext(AuthContext);
   const {currentUserDetails} = useSelector((state) => state.userDetails);
   const [requestData,setRequestdata]= useState([]);
   const dispatch = useDispatch();
@@ -84,6 +86,9 @@ const FriendRequest = () => {
     }
   }
   
+  if(!user){
+    return <Errorpage/>
+  }
   return (
     <section className='friend-list'>
             <UserRequest  requestData={requestData} auth={auth} AcceptRequestHandler={AcceptRequestHandler} RejectRequestHandler={RejectRequestHandler} playNoti={playNoti}/>

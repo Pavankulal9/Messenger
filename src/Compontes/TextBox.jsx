@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 const TextBox = () => {
   const {chat,currentUserDetails} = useSelector((state) => state.userDetails);
   const [text,setText]=useState('');
-  const [img,setImg]=useState();
+  const [img,setImg]=useState(0);
   const [previewImage,setPreviewImage] = useState();
 
   useEffect(()=>{
@@ -34,31 +34,41 @@ const TextBox = () => {
       const snap = await uploadBytes(imgRef, img);
       const dUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
       url= dUrl;
-      setImg('');
+      setImg(0);
     }
 
-    if(text===' '&& img === ''){
-        return ;
-    }else if(text === ''&& img === ''){
+    if(text.length <= 0 && !img){
       return ;
     }else{
+    const trimedText = text.trim(); 
     setText('');
-    await addDoc(collection(db,'Messages',id,'Chat'),{
-    text,
-    from: currentUserDetails.uid,
-    to: user2,
-    createdAt: Timestamp.fromDate(new Date()),
-    media: url || '',
-   });
+    
+    try {
+      await addDoc(collection(db,'Messages',id,'Chat'),{
+        text:trimedText,
+        from: currentUserDetails.uid,
+        to: user2,
+        createdAt: Timestamp.fromDate(new Date()),
+        media: url || '',
+       });
+    } catch (error) {
+      console.error(error.message);
+    }
+  
 
-   await setDoc(doc(db,'LastMessage',id),{
-    text,
-    from: currentUserDetails.uid,
-    to: user2,
-    createdAt: Timestamp.fromDate(new Date()),
-    media: url || '',
-    unread: true
-   });
+    try {
+      await setDoc(doc(db,'LastMessage',id),{
+        text:trimedText,
+        from: currentUserDetails.uid,
+        to: user2,
+        createdAt: Timestamp.fromDate(new Date()),
+        media: url || '',
+        unread: true
+       });
+    } catch (error) {
+      console.error(error.message);
+    }
+   
   }
    
   }

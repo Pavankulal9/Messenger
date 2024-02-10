@@ -2,14 +2,15 @@ import {createReducer,createAction} from '@reduxjs/toolkit';
 import { setDoc,doc} from 'firebase/firestore';
 import { auth, db } from './firebase';
 
-const getAllUsers = createAction('getAllUsers');//searchedUser
+const getAllUsers = createAction('getAllUsers');
 const setCurrentUserDeatils = createAction('setCurrentUserDeatils');
 const  AcceptedUser = createAction ('AcceptedUser');
 const AddedIfNotPresent = createAction('AddedIfNotPresent');
 const addChats = createAction('addChats');
 const clearCurrentUserDetails = createAction('clearCurrentUserDetails');
 const addCurrentUserId =  createAction('addCurrentUserId');
-const intialScreenRender = createAction('intialScreenRender')
+const intialScreenRender = createAction('intialScreenRender');
+
 const initialState = {
     currentUserDetails: null,
     UserList: [],
@@ -20,17 +21,19 @@ const initialState = {
 
 export const customReducer = createReducer(initialState,(builder)=>{
   builder
+  .addCase(intialScreenRender,(state)=>{
+    state.intialScreenRender = false;
+  })
+
   .addCase(getAllUsers,(state,action)=>{
      const user = action.payload
      const isExisting = state.UserList.find((PresentUser)=> user.uid === PresentUser.uid);
-     if(isExisting){
-        //  state.UserList.slice(0, state.UserList.length);
-        //  state.UserList.push(user);
-        }else{
+     if(!isExisting){
          state.UserList.push(user);
      }
    })
-   .addCase(addCurrentUserId,(state,action)=>{
+
+  .addCase(addCurrentUserId,(state,action)=>{
      state.currentUserId = action.payload;
    })
 
@@ -38,11 +41,8 @@ export const customReducer = createReducer(initialState,(builder)=>{
     state.currentUserDetails = action.payload;
   })
   
-  .addCase(intialScreenRender,(state)=>{
-    state.intialScreenRender = false;
-  })
 
-   .addCase(AcceptedUser,(state,action)=>{
+  .addCase(AcceptedUser,(state,action)=>{
     state.AddedUsers.splice(0, state.AddedUsers.length);
     state.AddedUsers.push(action.payload);
     console.log(state.AddedUsers,"AcceptedUser");
@@ -52,7 +52,7 @@ export const customReducer = createReducer(initialState,(builder)=>{
       });
       return()=> add();
     })
-   })
+  })
 
   .addCase(AddedIfNotPresent,(state,action)=>{
     state.AddedUsers.splice(0, state.AddedUsers.length);
@@ -66,13 +66,13 @@ export const customReducer = createReducer(initialState,(builder)=>{
     })
    })
 
-   .addCase(addChats,(state,action)=>{
+  .addCase(addChats,(state,action)=>{
       state.chat = action.payload;
-   })
+  })
 
-   .addCase(clearCurrentUserDetails,(state)=>{
+  .addCase(clearCurrentUserDetails,(state)=>{
     state.currentUserDetails = null;
-   });
+  });
    
 })
 

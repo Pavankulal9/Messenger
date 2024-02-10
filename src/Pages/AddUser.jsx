@@ -3,13 +3,15 @@ import profile from '../Assets/Profile1.png'
 import logo from '../Assets/logo.webp'
 import { toast } from 'react-hot-toast'
 import { getCurrentUserDetails, getFriendRequest } from '../apiCalls'
-import { useEffect, useState } from 'react'
+import { useEffect, useState,useContext } from 'react'
 import { Timestamp, doc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
+import Errorpage from './Errorpage'
+import { AuthContext } from '../Hooks/auth'
 
 const AddUser = () => {
-    const {UserList,currentUserDetails} = useSelector(state=> state.userDetails)
-
+    const {user} = useContext(AuthContext)
+    const {UserList,currentUserDetails} = useSelector(state=> state.userDetails);
     const [searchText, setSearchText]= useState('');
     const [requestData,setRequestdata]= useState([]);
     const [users,setUsers]= useState();
@@ -51,7 +53,9 @@ const AddUser = () => {
      }
     }
 
-    
+  if(!user){
+    return <Errorpage/>
+  }
   return (
     <div className='request'>
       <div className='search-user'>
@@ -98,7 +102,10 @@ const RequestedUser =({user,requestData,sendRequest,currentUserDetails})=>{
         {
           NonRequestedUser.length===0? <button onClick={()=>sendRequest(user)}>Send Request</button>:
           NonRequestedUser.map((data,index)=>(
-            user.uid === data.to ? (data.status === 'Request'? <h5 key={index}>Request Sent</h5>: <p key={index}>Friends</p>):<button onClick={()=>sendRequest} key={index}>Send Request</button>
+            user.uid === data.to ? 
+            (data.status === 'Request'? <h5 key={index}>Request Sent</h5> : <p key={index}>Friends</p>)
+            : 
+            <button onClick={()=>sendRequest} key={index}>Send Request</button>
           ))
         }
       </div>

@@ -1,9 +1,14 @@
 import React from 'react'
 
-const Loading = () => {
+const Loading = ({type}) => {
   return (
     <div className='loading'>
-      <h1>Loading...</h1>
+      {
+        type==='text'?
+        <h1>Loading...</h1>
+        :
+        <div></div>
+      }
     </div>
   )
 }

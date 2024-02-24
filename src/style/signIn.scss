@@ -1,30 +1,20 @@
 //?SignUp Page styles
 .signUp-contanier{
-    width: 100%;
-    height: 95%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include width-hight-setter(100%,93%);
+    @include flexBox();
     > form{
-      width: 40%;
-      height: auto;
-      display: flex;
-      flex-direction: column;
-      padding: 2rem 1rem;
-      gap: 1rem;
+      @include width-hight-setter(40%,auto,2rem 1rem);
+      @include flexBox(none,none,1rem,column);
       > h1{
-        background: -webkit-linear-gradient(#eee, #333);
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+        @include logoHeader(none,none);
       }
       > div{
         >input{
-          width: 95%;
-          padding: 1rem 0.5rem;
+          @include width-hight-setter(95%,auto,1rem 0.5rem);
           border: none;
           outline: none;
-          color: rgb(255, 255, 255);
-          background-color: rgb(83, 83, 83);
+          color: $primary-text-color;
+          background-color: $secondary-background-color;
           border-radius: 5px;
           font-size: 0.8rem;
         }
@@ -36,18 +26,10 @@
     }
   
     .submite-button{
+      text-align: center;
         > button{
-          padding: 0.8rem 1.3rem;
-          color: black;
-          border: none;
-          outline: none;
-          border-radius: 5px;
+          @include button(0.8rem 1.3rem,5px,$primary-background-color,$primary-text-color);
           font-weight: 500;
           font-size: 0.8rem;
-          &:hover{
-            color: white;
-            background-color: #4158D0;
-            background-image: linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-          }
         }
     }  

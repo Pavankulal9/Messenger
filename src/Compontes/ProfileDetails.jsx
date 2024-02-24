@@ -1,13 +1,14 @@
 import React from 'react'
 import profile from '../Assets/Profile1.png'
 import {FiCamera} from 'react-icons/fi'
+import PreLoadImage from './PreLoadImage'
 
 const ProfileDetails = ({currentUserDetails,setProfilePicHandler}) => {
   return (
     <section className='profile-body'>
        <div className='profile-container' >
         <div className="img-container">
-          <img src={currentUserDetails.avatar || profile} alt="profile" />
+         <PreLoadImage src={currentUserDetails.avatar||profile}/>
           <FiCamera />
           <input type="file"
            accept='image/*'

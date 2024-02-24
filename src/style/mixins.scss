@@ -1,0 +1,102 @@
+@mixin width-hight-setter($w:100%,$h:100%,$p:none){
+    width: $w;
+    height: $h;
+    padding: $p;
+}
+
+@mixin flexBox($al:center,$js:center,$gp:none,$fd:row){
+    display: flex;
+    align-items: $al;
+    justify-content: $js;
+    gap: $gp;
+    flex-direction: $fd;
+}
+
+@mixin gridBox($gtc:none,$gp:none){
+    display: grid;
+    grid-template-columns: $gtc;
+    gap: $gp;
+}
+
+@mixin logoHeader($fs:2.5rem,$fw:800,$bg1:$logoHeader-background-color,$bg2:$logoHeader-background-color-2){
+    font-size: $fs;
+    font-weight: $fw;
+    background: -webkit-linear-gradient($bg1,$bg2);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+@mixin button($p:0.5rem,$br:5px,$colr:$primary-text-color,$hcolr:none){
+    outline: none;
+    border: none;
+    padding: $p;
+    border-radius: $br;
+    color: $primary-text-color;
+    background-color: #4158D0;
+    background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
+    transition: 0.5s;
+    &:hover{
+       color: $hcolr;
+       background-color: #4158D0;
+        background-image: linear-gradient(100deg, #4158D0 0%, #C850C0 66%, #FFCC70 100%);
+    }
+}
+
+@mixin backgoundColor_and_image($deg:43deg,$colp:0%,$colp2:46%,$colp3:100%){
+    background-color: #4158D0;
+    background-image: linear-gradient($deg, #4158D0 $colp, #C850C0 $colp2, #FFCC70 $colp3);
+}
+
+@mixin scrollBar(){
+    ::-webkit-scrollbar{
+        display: none;
+      }
+}
+
+@mixin userListStyles(){
+        @include flexBox(none,none,0rem,column);
+        .user-container{
+          padding: 1rem 0.5rem;
+          @include flexBox(center,none,1rem);
+          overflow-y: auto;
+          transition: 0.5s;
+          &:hover{
+            transform: scale(1.01);
+          }
+          > .user-details{
+            @include width-hight-setter(50px,50px);
+            @include flexBox(center,none,0.5rem);
+            >.loading{
+              @include width-hight-setter();
+              background-color: $secondary-background-color;
+              border-radius: 50%;
+            }
+            > img{
+              @include width-hight-setter();
+              object-fit: cover;
+              border-radius: 50%;
+            }
+          }
+          > .user-name{
+            > h4{
+              font-weight: bold;
+            }
+            > p{
+              margin-bottom: 0.5rem;
+              width: 14em;
+              overflow-y: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
+          }
+         > .user-status{
+          @include flexBox(flex-start,none,0.2rem,column);
+          > h4{
+            text-transform: capitalize;
+          }
+          > p{
+            text-align: left;
+          }
+        } 
+        }
+}

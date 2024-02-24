@@ -3,10 +3,10 @@ import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import { Toaster } from 'react-hot-toast';
 import Navbar from './Layouts/Navbar';
 import { lazy } from 'react';
+import Home from './Pages/Home';
 import './style/App.scss';
 const Signup= lazy(()=> import('./Pages/Signup') )
 const Login= lazy(()=> import('./Pages/Login') )
-const Home= lazy(()=> import('./Pages/Home') )
 const Profile = lazy(()=> import('./Pages/Profile') )
 const AddUser = lazy(()=> import('./Pages/AddUser') )
 const FriendRequest= lazy(()=> import('./Pages/FriendRequest') )

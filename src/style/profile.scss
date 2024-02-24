@@ -1,56 +1,50 @@
 //? Profile page Styles
 .profile-body{
-    width: 100%;
-    height: 95vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include width-hight-setter(100%,93%);
+    @include flexBox();
+    > .profile-container{
+      @include flexBox(none,none,1rem);
+      @include backgoundColor_and_image(100deg,0%,66%,100%);
+      border-radius: 20px;
+      padding:2rem 1rem;
+      > .img-container{
+        position: relative;
+        @include width-hight-setter(200px,200px);
+        @include flexBox(center,center,0rem,column);
+        >.loading{
+          @include width-hight-setter();
+          background-color: $primary-background-color;
+          border-radius: 50%;
+        }
+        > img{
+          @include width-hight-setter();
+          object-fit: cover;
+          border-radius: 50%;
+        }
+        > input{
+          opacity: 0;
+          position: absolute;
+          @include width-hight-setter();
+        }
+        > svg{
+          position: absolute;
+          font-size: 1.2rem;
+          opacity: 0;
+        }
+        &:hover img{
+        opacity: 0.5;
+        }
+        &:hover svg{
+          opacity: 1;
+        }
+      }
+      > .user-info{
+        @include width-hight-setter(auto,200px);
+        @include flexBox(none,center,1rem,column);
+      }
+    }
   }
   
-  .profile-container{
-    display: flex;
-    border-radius: 20px;
-    padding:2rem 1rem;
-    gap: 1rem;
-    background-color: #4158D0;
-    background-image: linear-gradient(100deg, #4158D0 0%, #C850C0 66%, #FFCC70 100%); ;
-  }
   
-  .img-container{
-    width: 200px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    > img{
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 50%;
-    }
-    > input{
-      opacity: 0;
-      position: absolute;
-    }
-    > svg{
-      position: absolute;
-      font-size: 1.2rem;
-      opacity: 0;
-    }
-    &:hover img{
-    opacity: 0.5;
-    }
-    &:hover svg{
-      opacity: 1;
-    }
-  }
   
-  .user-info{
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    justify-content: center;
-  }
   

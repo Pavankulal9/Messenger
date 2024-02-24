@@ -14,7 +14,6 @@ const UnAuthUserComp = () => {
       <div>
           <p>New Here?</p>
           <button><Link to={'/signup'}>SignUp</Link></button>
-
           <p>or</p>
           <p>Alreay Registered In?</p>
           <button><Link to={'/login'}>Login</Link></button>

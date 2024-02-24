@@ -1,10 +1,5 @@
 //? Media Queries 
 @media(max-width:1250px){
-  .signUp-contanier{
-    > form{
-      width: 100%;
-    }
-  }
   .home{
     position: relative;
     grid-template-columns: 1.5fr 3fr;
@@ -21,11 +16,6 @@
 
 
 @media(max-width:850px){
-  .signUp-contanier{
-    > form{
-      width: 100%;
-    }
-  }
 .read{
     width: 10em;
   }
@@ -33,17 +23,18 @@
   .unread{
     width: 10em;
   }
-  .user-details{
-    > img{
-      width: 40px;
-      height: 40px;
-    }
-  }
+
 }
 
 @media(max-width:670px){
+  .signUp-contanier{
+    > form{
+      width: 100%;
+    }
+  }
+
   .navbar{
-    >h1{
+    > h1{
       > a{
         font-size: 1.5rem;
       }
@@ -52,25 +43,39 @@
   .home{
     position: relative;
     grid-template-columns: 1fr;
-  }
-  .message-body{
-    position: absolute;
-    left: 0;
+    > .user-container{
+      > .user-details{
+        > img{
+          @include width-hight-setter(50px,50px);
+        }
+      }
+    }
+    >.message-body{
+      position: absolute;
+      left: 0;
+      >.message-user{
+        > svg{
+          display: block;
+          margin-left: 0.5rem;
+          font-weight: bold;
+        }
+        > a{
+         > img{
+          @include width-hight-setter(40px,40px);
+         }
+        }
+      }
+      > .message-form {
+        .input-box{
+          @include width-hight-setter(70%,auto);
+        }
+        .button{
+          height: auto;
+        }
+      }
+    }
   }
 
-  .message-user{
-    > svg{
-      display: block;
-      margin-left: 0.5rem;
-      font-weight: bold;
-    }
-    > a{
-     > img{
-        width: 40px;
-        height: 40px;
-     }
-    }
-  }
 
   .close{
     display: none;
@@ -87,17 +92,13 @@
     display: none;
   }
 
-  .message-form input{
-    width: 70vw;
-  }
   .container{
     width: 100%;
   }
 
   .seletedImg{
     display: block;
-    width: 20px;
-    height: 20px;
+    @include width-hight-setter(20px,20px);
     border-radius: 50%;
     border: 3px solid greenyellow;
   }
@@ -107,10 +108,21 @@
     }
   }
 
-  .profile-container{
-    width: 80%;
-    flex-direction: column;
-    align-items: center;
+  .profile-body{
+   > .profile-container{
+      width: 80%;
+      @include flexBox(center,center,0rem,column);
+    }
+  }
+
+  .friend-list{
+    >.friend-requests{
+      padding: 0.5rem;
+      @include flexBox(flex-start,center,1rem,column);
+      flex-direction: column;
+      align-items:start;
+      gap: 1rem;
+    }
   }
 
   .read{
@@ -119,12 +131,6 @@
   
   .unread{
     width: 15em;
-    }
-
-     .user-details{
-    > img{
-      width: 50px;
-      height: 50px;
-    }
   }
+   
 }

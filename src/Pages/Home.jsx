@@ -10,17 +10,14 @@ const Home = () => {
   const {user}= useContext(AuthContext);
   const {currentUserDetails,intialScreenRender} = useSelector((state) => state.userDetails);
   const dispatch = useDispatch();
-   
   const [userFriendList,setUserFriendList] = useState([]);
  
-
   useEffect(()=>{
     setTimeout(()=>{
       dispatch({
         type: 'intialScreenRender'
       });
-    },3000);
-    
+    },4000);
     if(user){
           getCurrentUserDetails(user.uid,dispatch);
           getAllUsersDetails(user.uid,dispatch);
@@ -28,12 +25,11 @@ const Home = () => {
     }
   },[user,dispatch]);
 
-    
      if(intialScreenRender){
        return(
         <IntroScreen/>
        )
-     }else if(userFriendList&&currentUserDetails){
+     }else if(user&&currentUserDetails){
        return (
          <AuthUserComp userFriendList={userFriendList} currentUserDetails={currentUserDetails}/>
        )

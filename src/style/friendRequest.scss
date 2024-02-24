@@ -1,49 +1,37 @@
 //? friend request page Styles 
 .friend-list{
-    width: 100%;
-    height: 96vh;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-  .friend-requests{
-    width: 100%;
-    height: 10%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .btn{
-    padding: 0 0.5rem;
-    > button{
-      padding: 0.5rem 2rem; 
-      margin: 0 0.3rem;
-      font-size: 0.8rem;
-      font-weight: 500;
-      border: none;
-      border-radius: 5px;
-      color: white;
-      background-color: #4158D0;
-      background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-      transition: 0.5s;
-      &:hover{
-        transform: scale(1.1);
-        background-color: #4158D0;
-        background-image: linear-gradient(100deg, #4158D0 0%, #C850C0 66%, #FFCC70 100%);
+    @include width-hight-setter(100%,93%);
+    @include flexBox(none,none,0.3rem,column);
+    > .friend-requests{
+      @include width-hight-setter(100%,10%);
+      @include flexBox(center,space-between);
+      > .user-details{
+        padding: 0 0.3rem;
+        @include flexBox(center,space-between,1rem);
+        > img{
+          @include width-hight-setter(50px,50px);
+          border-radius: 50%;
+        }
+      }
+      > .btn{
+        padding: 0 0.5rem;
+        > button{
+          @include button(0.5rem 2rem,5px);
+          margin: 0 0.3rem;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
       }
     }
   }
   
   .request{
-    width: 100%;
-    height: 96vh;
-    color: white;
-    display: grid;
-    grid-template-columns: 1fr 3fr;
-    gap: 0.3rem;
-    background-color: black;
-    ::-webkit-scrollbar{
-      display: none;
-    }
+    @include width-hight-setter(100%,93%);
+    @include gridBox(1fr 3fr,0.3rem);
+    color: $primary-text-color;  
+    background-color: $secondary-background-color;
+    @include scrollBar();
   }
+  
+  
+  

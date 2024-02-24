@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import "mixins.scss";
+@import "colors.scss";
 @import "introScreen.scss";
 @import "navbar.scss";
 @import "signIn.scss";
@@ -24,16 +26,15 @@ body{
 
 a{
  text-decoration: none;
- color: white;
+ color: $primary-text-color;
  font-size: 0.8rem;
  font-weight: 400;
 }
 
 
 .App{
-  width: 100vw;
-  height: 100svh;
-  background-color: black;
-  color: white; 
+  @include width-hight-setter(100vw,100vh);
+  background-color: $primary-background-color;
+  color: $primary-text-color; 
   overflow-y: auto;
 }

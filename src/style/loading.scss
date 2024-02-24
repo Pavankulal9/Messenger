@@ -1,13 +1,26 @@
 
 //? Loading Page Styles
 .loading{
-    width: 100%;
-    height: 95%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include width-hight-setter(100%,93%);
+    @include flexBox();
     >h1{
-      color: white;
+      color: $primary-text-color;
+    }
+    > div{
+      @include width-hight-setter(20%,20%);
+     border-radius: 50%;
+     border: 5px solid $secondary-background-color;
+     border-top:  5px solid $primary-text-color;
+     animation: spinner 2s linear infinite ;
+    }
+    @keyframes spinner {
+      0%{
+          transform: rotate(0deg);
+      }
+      100%{
+          transform: rotate(360deg);
+      }
     }
   }
+
   

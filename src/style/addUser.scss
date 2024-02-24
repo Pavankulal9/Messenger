@@ -1,60 +1,49 @@
 //? AddUser page styles
 .search-user{
-    padding-inline: 0.3rem;
-    padding-block: 0.5rem;
-    background-color: black;
+  @include width-hight-setter();
+  @include flexBox(center,center,0.3rem,column);
+    background-color: $primary-background-color;
     > input{
-      width: 90%;
-      padding: 0.5rem;
-      background: #333;
-      color: white;
+      @include width-hight-setter(95%,auto,0.5rem 0);
+      margin-top: 0.5rem;
+      background: $secondary-background-color;
+      color: $primary-text-color;
       border: none;
       outline: none;
       font-size: 0.9rem;
     }
-  }
-  
-  .searched-user{
-    height: 89vh;
+  > .searched-user{
+    @include width-hight-setter(100%,87vh);
     overflow-y: auto;
     > h3{
       margin: 1rem 0.5rem; 
-      background: -webkit-linear-gradient(#f9f8f8, #505050);
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      @include logoHeader(auto,auto,#f9f8f8,#505050);
     }
+    > .user{
+      @include width-hight-setter(100%,auto);
+      @include userListStyles();
+    }
+  }
   }
   
   .request-Button{
    > h5{
-    background-color: #333;
-    padding: 0.5rem;
+    @include width-hight-setter(100px,auto,0.5rem);
+    background-color: $secondary-background-color;
     border-radius: 5px;
    }
    > p{
-    width: 80%;
+    @include width-hight-setter(150px,auto,0.3rem 0);
     font-size: 0.9rem;
     background-color:rgb(171, 255, 44);
     text-align: center;
-    padding: 0.3rem 0;
     border-radius: 5px;
    }
     > button{
-      padding: 0.5rem 0.8rem; 
+      @include button(0.5rem 2.5rem,5px);
       margin: 0.3rem 0;
       font-size: 0.7rem;
       font-weight: 500;
-      border: none;
-      padding: 0.5rem;
-      border-radius: 5px;
-      color: white;
-      background-color: #4158D0;
-      background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
-      transition: 0.5s;
-      &:hover{
-        background-color: #4158D0;
-        background-image: linear-gradient(100deg, #4158D0 0%, #C850C0 66%, #FFCC70 100%);
-      }
     }
   }
   

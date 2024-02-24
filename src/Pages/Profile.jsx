@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { getCurrentUserDetails, uploadImage } from '../apiCalls';
 import { useDispatch, useSelector } from 'react-redux';
 import Loading from './Loading';
@@ -9,17 +9,20 @@ import { AuthContext } from '../Hooks/auth';
 const Profile = () => {
   const {user} = useContext(AuthContext);
   const dispatch = useDispatch();
+  const [imageUpdated,setImageUpdated] = useState(false);
   const {currentUserDetails}= useSelector((state)=> state.userDetails);
 
  useEffect(()=>{
-  if(currentUserDetails){
+  setTimeout(()=>{
     getCurrentUserDetails(currentUserDetails.uid,dispatch);
-  }
- },[currentUserDetails,dispatch]);
+  },3000);
+ },[currentUserDetails.uid,dispatch,imageUpdated]);
 
   const setProfilePicHandler = async(e)=>{
     const image = e.target.files[0];
     uploadImage(currentUserDetails,image);
+    setImageUpdated(true);
+    getCurrentUserDetails(currentUserDetails.uid,dispatch);
   }
 
   if(!user){
@@ -30,7 +33,7 @@ const Profile = () => {
      <ProfileDetails currentUserDetails={currentUserDetails} setProfilePicHandler={setProfilePicHandler}/>
   )
   :
-    (<Loading/>)
+    (<Loading type={'text'}/>)
 }
 
 export default Profile

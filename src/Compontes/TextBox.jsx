@@ -39,10 +39,13 @@ const TextBox = () => {
 
     if(text.length <= 0 && !img){
       return ;
-    }else{
-    const trimedText = text.trim(); 
+    } else{
+     const trimedText = text.trim(); 
+      if(trimedText === ""){
+        return ;      
+      }
     setText('');
-    
+    console.log(trimedText);
     try {
       await addDoc(collection(db,'Messages',id,'Chat'),{
         text:trimedText,
@@ -86,14 +89,14 @@ const TextBox = () => {
       id='img'
       style={{display: 'none'}}
       />
-      <div>
+      <div className='input-box'>
         <input type="text" 
         placeholder='Enter the message'
         onChange={(e)=> setText(e.target.value)}
         value={text}
         />
       </div>
-      <div>
+      <div className='button'>
         <button className='btn'><BiSend/></button>
       </div>
     </form>

@@ -4,6 +4,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 import { useSelector } from "react-redux";
 import LastMessage from "./LastMessage";
+import PreLoadImage from "./PreLoadImage";
 
 const User = ({user,handleSelectedUser}) => {
 
@@ -35,7 +36,7 @@ const User = ({user,handleSelectedUser}) => {
       >
         <div className="user-container">
           <div className="user-details">
-            <img src={user.avatar || profile} alt="profile" />
+            <PreLoadImage src={user.avatar || profile}/>
           </div>
           <div className={`user-status`}>
             <h4>{user.name}</h4>

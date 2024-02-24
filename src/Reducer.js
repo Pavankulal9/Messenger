@@ -26,9 +26,11 @@ export const customReducer = createReducer(initialState,(builder)=>{
   })
 
   .addCase(getAllUsers,(state,action)=>{
-     const user = action.payload
+     const user = action.payload;
      const isExisting = state.UserList.find((PresentUser)=> user.uid === PresentUser.uid);
-     if(!isExisting){
+     if(isExisting){
+      return ;
+     }else if(!isExisting){
          state.UserList.push(user);
      }
    })

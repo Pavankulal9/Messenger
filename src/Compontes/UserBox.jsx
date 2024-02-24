@@ -15,8 +15,10 @@ const UserBox = ({userFriendList,handleSelectedUser}) => {
        ))
       :
        <div className="add-user">
+        <div>
           <AiFillWechat/>
           <h2>Add Users To Start Conversation</h2>
+        </div>
       </div>
     }  
      <button onClick={()=> Naviagte('/addUser')}>Add Users</button>

@@ -1,8 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import profile from '../Assets/Profile1.png'
 import logo from '../Assets/logo.webp'
 import { toast } from 'react-hot-toast'
-import { getCurrentUserDetails, getFriendRequest } from '../apiCalls'
+import { getFriendRequest } from '../apiCalls'
 import { useEffect, useState,useContext } from 'react'
 import { Timestamp, doc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -15,18 +15,13 @@ const AddUser = () => {
     const [searchText, setSearchText]= useState('');
     const [requestData,setRequestdata]= useState([]);
     const [users,setUsers]= useState();
-    const dispatch = useDispatch();
 
     useEffect(()=>{
-      if(currentUserDetails){
-      getCurrentUserDetails(currentUserDetails.uid,dispatch);
       getFriendRequest(setRequestdata);
-    }
-  },[currentUserDetails,dispatch]);
-
+    },[]);
 
     const SearchedUserList = (e)=>{
-     setSearchText(e.target.value)
+     setSearchText(e.target.value);
      const SearchResult = UserList.filter((user)=> user.name.includes(searchText)|| user.email.includes(searchText));
      setUsers(SearchResult);
     }
@@ -70,7 +65,7 @@ const AddUser = () => {
                     <img src={user.avatar || profile} alt="profile" />
                   </div>
                   <div className='user-name'>
-                    <h3>{user.name}</h3>
+                    <h4>{user.name}</h4>
                     <p>{user.email}</p>
                     <RequestedUser user={user} requestData={requestData} sendRequest={SendRequestHandler} currentUserDetails={currentUserDetails} />
                   </div> 
@@ -90,7 +85,8 @@ const AddUser = () => {
       </div>
     </div>
     <div className='animation'><img src={logo} alt="logo" width={200} />
-                <h1>Messenger</h1></div>
+                <h1>Messenger</h1>
+     </div>
     </div>
   )
 }

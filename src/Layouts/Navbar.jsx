@@ -9,25 +9,32 @@ import { AuthContext } from '../Hooks/auth';
 import { getFriendRequest } from '../apiCalls';
 const Navbar = () => {
 
-    const {user} = useContext(AuthContext);
+    const {user,setUser} = useContext(AuthContext);
     const [requestData,setRequestdata]= useState([]);
     const navigation = useNavigate();
     const {currentUserDetails} = useSelector((state) => state.userDetails);
-
-
     const dispatch = useDispatch();
+
     useEffect(()=>{
      getFriendRequest(setRequestdata);
     },[user]);
     
     const handleLogout=()=>{
-      updateDoc(doc(db,'users',currentUserDetails?.uid),{
+        updateDoc(doc(db,'users',currentUserDetails?.uid),{
             isOnline: false,
-        })
-        signOut(auth);
+          });
+          dispatch({
+            type:'clearCurrentUserDetails',
+          });
+          setUser(0);
         dispatch({
-          type:'clearCurrentUserDetails',
+          type: 'addChats',
+          payload: "",
         });
+        
+
+        signOut(auth);
+        
         navigation('/');
       }
       
@@ -38,7 +45,7 @@ const Navbar = () => {
     <nav className='navbar'>
        <h1><Link to={'/'}>Messenger</Link></h1> 
         {
-           currentUserDetails?.uid?(
+           user&&currentUserDetails?.uid?(
             <ul>
             <button><Link to={'/profile'}>Profile</Link></button>
             <button onClick={()=> handleLogout()}>Logout</button>

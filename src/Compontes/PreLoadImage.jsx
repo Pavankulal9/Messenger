@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import LoadingImg from '../Assets/loadingImg.jpeg'
+import Loading from '../Pages/Loading';
 const PreLoadImage = ({src}) => {
     const [ImageLoading,setImageLoading] = useState(true);
 
@@ -14,7 +14,7 @@ const PreLoadImage = ({src}) => {
     <>
     {
         ImageLoading && 
-        <img src={LoadingImg} alt='Loading_image'/>
+        <Loading/>
     }
     {
         !ImageLoading && 

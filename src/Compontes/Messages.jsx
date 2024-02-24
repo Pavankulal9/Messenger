@@ -6,13 +6,11 @@ import PreLoadImage from './PreLoadImage';
 
 const Messages = () => {
     const {chat,currentUserDetails} = useSelector((state) => state.userDetails);
-    const scrollRef= useRef();
-    const [messages,setMessages]=useState();
-    
+    const scrollRef= useRef(null);
+    const [messages,setMessages]=useState([]);
     useEffect(()=>{
-      setMessages();
+      setMessages([]);
       const id = currentUserDetails.uid > chat.uid ? `${currentUserDetails.uid+" "+chat.uid}`:`${chat.uid+" "+currentUserDetails.uid}`;
-      
         const msgRef = collection(db,'Messages',id,'Chat')
         const q = query(msgRef,orderBy('createdAt','asc'));
          const unsub = onSnapshot(q, querrySnapShot=>{
@@ -20,33 +18,48 @@ const Messages = () => {
          querrySnapShot.forEach((doc)=>{
            messages.push(doc.data());
           });
-           setMessages(messages);
+          setMessages(messages);
         });
         return ()=> unsub();
       },[chat.uid,currentUserDetails.uid]);
 
+      const scrollToBottom = () => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
+        }
+      };
+
       useEffect(()=>{
         if(messages){
-          scrollRef.current?.scrollIntoView({behavior: 'smooth',block: "end", inline: "nearest"});
+          setTimeout(() => {
+            scrollToBottom();
+          }, 1000);
         }
       },[messages]);
 
     return (
-      <div className='messages'>
+     messages.length > 0 ?
+      <div className='messages' ref={scrollRef}>
       {
-        messages&& messages.map((message,index)=>
-        <div className={`message-wrapper ${message.from === currentUserDetails.uid? 'mine':''}`} ref={scrollRef} key={index}>
-          <div className={`${messages.from === currentUserDetails.uid ? 'myself': 'other'}`}>
-            {message.media ? <PreLoadImage src={message.media}/>:null}
-            <p>
-             {message.text}
-             <small>{message.createdAt?.toDate(new Date().getTime()).toString().slice(16,21)}</small>
-            </p>
+        messages.map((message)=>
+        <div className={`message-wrapper ${message.from === currentUserDetails.uid? 'mine':''}`}>
+          <div className={`${messages.from === currentUserDetails.uid ? 'myself': 'other'}`} key={message.createdAt.seconds}>
+            {message.media && <PreLoadImage src={message.media}/>}
+            <div>
+              <p>
+              {message.text}
+              </p>
+              <time>{message.createdAt?.toDate(new Date().getTime()).toString().slice(16,21)}</time>
+            </div>
           </div>
         </div>
         )
       }
     </div>
+    :
+     <div className='messages'>
+
+     </div>
     )
 }
 

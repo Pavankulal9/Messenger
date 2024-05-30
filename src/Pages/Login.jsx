@@ -7,7 +7,7 @@ import { loginValidation } from '../Schemas/loginValidation';
 import { auth, db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 import wav from '../Assets/notification.wav'
-import { AuthContext } from '../Hooks/auth';
+import {AuthContext} from '../Context/AuthContext';
 const Login = () => {
 
 const {setUser} = useContext(AuthContext);
@@ -91,7 +91,7 @@ const [loading,setLoading]=useState(false);
          }
       </div>
       <div className='submite-button'>
-        <button type='submit'>{loading? 'Logging...':'Login'}</button>
+        <button type='submit' disabled={loading}>{loading? 'Logging...':'Login'}</button>
       </div>
     </form>
 

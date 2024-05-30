@@ -120,7 +120,7 @@
       padding: 0.5rem;
       @include flexBox(flex-start,center,1rem,column);
       flex-direction: column;
-      align-items:start;
+      align-items:flex-start;
       gap: 1rem;
     }
   }

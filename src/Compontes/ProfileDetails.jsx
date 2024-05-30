@@ -8,7 +8,8 @@ const ProfileDetails = ({currentUserDetails,setProfilePicHandler}) => {
     <section className='profile-body'>
        <div className='profile-container' >
         <div className="img-container">
-         <PreLoadImage src={currentUserDetails.avatar||profile}/>
+         <PreLoadImage 
+         src={currentUserDetails.avatar||profile} />
           <FiCamera />
           <input type="file"
            accept='image/*'

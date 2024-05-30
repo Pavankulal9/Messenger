@@ -6,7 +6,7 @@ import {setDoc,doc,Timestamp} from 'firebase/firestore';
 import { signUpShema } from '../Schemas';
 import { auth, db } from '../firebase';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../Hooks/auth';
+import {AuthContext} from '../Context/AuthContext';
 const Signup = () => {
 
 const navigate = useNavigate();

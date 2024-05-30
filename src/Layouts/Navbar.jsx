@@ -5,7 +5,7 @@ import { auth,db } from '../firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import {BiBell} from 'react-icons/bi'
 import { useDispatch, useSelector } from 'react-redux';
-import { AuthContext } from '../Hooks/auth';
+import {AuthContext} from '../Context/AuthContext';
 import { getFriendRequest } from '../apiCalls';
 const Navbar = () => {
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import {AiFillWechat} from 'react-icons/ai';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import User from './Users';
 
 const UserBox = ({userFriendList,handleSelectedUser}) => {

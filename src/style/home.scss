@@ -83,6 +83,7 @@
             display: none;
           }
           > a{
+            @include width-hight-setter(50px,50px);
             padding-left: 1rem;
             padding-right: 0.5rem;
             > img{
@@ -108,10 +109,10 @@
               text-align: center;
               border-radius: 5px;
               > .loading{
-                @include width-hight-setter(200px,200px);
+                @include width-hight-setter(300px,300px);
               }
               > img{
-              @include width-hight-setter();
+              @include width-hight-setter(300px,300px);
               object-fit: cover;
               border-radius: 5px;
               }

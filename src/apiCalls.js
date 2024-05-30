@@ -4,19 +4,18 @@ import { getDownloadURL, uploadBytes,deleteObject,ref } from 'firebase/storage';
 
 export const getCurrentUserDetails =async (userId,dispatch)=>{
    try {
-      await getDoc(doc(db,'users',userId)).then(docSnap=>{  dispatch({
+      await getDoc(doc(db,'users',userId)).then(docSnap=>{ dispatch({
          type:'setCurrentUserDeatils',
          payload: docSnap.data(),
       });});
    } catch (error) {
       console.log(error);
+      return error;
    }
 }
 
-
 export const getUserFriendList =(currentUserId,setUserFriendList)=>{
    try {
-      
       const userDetail = collection(db,'AddedUser',currentUserId,'users');
       onSnapshot(userDetail, querrySnapShot=>{
       let usersFriendList=[];
@@ -27,6 +26,7 @@ export const getUserFriendList =(currentUserId,setUserFriendList)=>{
       })
    } catch (error) {
       console.log(error);
+      return error;
    }
 }
 
@@ -45,27 +45,29 @@ export const getAllUsersDetails = (currentUser,dispatch)=>{
            });
      });
  });
-  } catch (error) {
-   console.log(error);
-  }
+   } catch (error) {
+      console.log(error);
+      return error;
+   }
 }
 
 export const uploadImage= async(currentUserDetails,image)=>{
    const imgRef = ref(storage,`avatar/${new Date().getTime()} - ${image.name}`);
     try {
-     if(currentUserDetails.avatarPath){
-       await deleteObject(ref(storage, currentUserDetails.avatarPath))
-     }
      const snap = await uploadBytes(imgRef,image);
      const url = await getDownloadURL(ref(storage,ref(storage, snap.ref.fullPath)));
      await updateDoc(doc(db,'users',currentUserDetails.uid),{
        avatar: url,
        avatarPath: snap.ref.fullPath
      });
-    } catch (error) {
-     console.log(error)
+     if(currentUserDetails.avatarPath){
+      await deleteObject(ref(storage, currentUserDetails.avatarPath))
     }
-   }
+    } catch (error) {
+     console.log(error);
+     return error;
+    }
+}
 
    export const getFriendRequest =(setRequestdata)=>{
       try {
@@ -79,6 +81,7 @@ export const uploadImage= async(currentUserDetails,image)=>{
         });
       } catch (error) {
          console.log(error);
+         return error;
       }
    }
 

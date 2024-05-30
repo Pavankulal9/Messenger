@@ -3,21 +3,26 @@ import profile from '../Assets/Profile1.png'
 import logo from '../Assets/logo.webp'
 import { toast } from 'react-hot-toast'
 import { getFriendRequest } from '../apiCalls'
-import { useEffect, useState,useContext } from 'react'
+import { useEffect, useState,useContext, useMemo } from 'react'
 import { Timestamp, doc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import Errorpage from './Errorpage'
-import { AuthContext } from '../Hooks/auth'
+import {AuthContext} from '../Context/AuthContext';
 
 const AddUser = () => {
     const {user} = useContext(AuthContext)
     const {UserList,currentUserDetails} = useSelector(state=> state.userDetails);
     const [searchText, setSearchText]= useState('');
     const [requestData,setRequestdata]= useState([]);
-    const [users,setUsers]= useState();
+    const [users,setUsers]= useState(0);
+    const [error,setError]=useState('');
 
     useEffect(()=>{
-      getFriendRequest(setRequestdata);
+      try {
+        getFriendRequest(setRequestdata);
+      } catch (error) {
+        setError(error.messaage);
+      }
     },[]);
 
     const SearchedUserList = (e)=>{
@@ -38,18 +43,17 @@ const AddUser = () => {
         sentAt: Timestamp.fromDate(new Date()),
         status:'Request',
       })
-      .catch((err)=>{
-        console.log(err);
-      });
-
       toast.success('Request sent succesfully');
      } catch (error) {
       console.log(error);
+      toast.error('Request could not be sent!');
      }
     }
 
   if(!user){
     return <Errorpage/>
+  }else if(user&&error.length > 0){
+    return <Errorpage error={error}/>
   }
   return (
     <div className='request'>
@@ -92,7 +96,8 @@ const AddUser = () => {
 }
 
 const RequestedUser =({user,requestData,sendRequest,currentUserDetails})=>{
-  const NonRequestedUser= requestData.filter((data)=> currentUserDetails.uid === data.From && user.uid === data.to);
+  const NonRequestedUser=useMemo(()=> requestData.filter((data)=> currentUserDetails.uid === data.From && user.uid === data.to)
+  ,[requestData,currentUserDetails.uid,user.uid]);
     return (
       <div className='request-Button'>
         {

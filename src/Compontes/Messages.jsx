@@ -8,6 +8,7 @@ const Messages = () => {
     const {chat,currentUserDetails} = useSelector((state) => state.userDetails);
     const scrollRef= useRef(null);
     const [messages,setMessages]=useState([]);
+    
     useEffect(()=>{
       setMessages([]);
       const id = currentUserDetails.uid > chat.uid ? `${currentUserDetails.uid+" "+chat.uid}`:`${chat.uid+" "+currentUserDetails.uid}`;
@@ -31,9 +32,7 @@ const Messages = () => {
 
       useEffect(()=>{
         if(messages){
-          setTimeout(() => {
             scrollToBottom();
-          }, 1000);
         }
       },[messages]);
 

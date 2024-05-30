@@ -4,22 +4,24 @@ import { auth, db } from '../firebase';
 import profile from '../Assets/Profile1.png'
 import { useDispatch, useSelector} from 'react-redux';
 import { toast } from 'react-hot-toast';
-import wav from '../Assets/notification.wav';
 import { getCurrentUserDetails, getFriendRequest } from '../apiCalls';
 import Errorpage from './Errorpage';
-import { AuthContext } from '../Hooks/auth';
+import {AuthContext} from '../Context/AuthContext';
 
 const FriendRequest = () => {
   const {user} = useContext(AuthContext);
   const {currentUserDetails} = useSelector((state) => state.userDetails);
   const [requestData,setRequestdata]= useState([]);
   const dispatch = useDispatch();
-
-  const playNoti = new Audio(wav);
+  const [error,setError]=useState('');
 
   useEffect(()=>{
+    try {
       getCurrentUserDetails(currentUserDetails.uid,dispatch);
       getFriendRequest(setRequestdata);
+    } catch (error) {
+      setError(error);
+    }
   },[currentUserDetails.uid,dispatch]);
 
   const AcceptRequestHandler =async(user)=>{
@@ -33,16 +35,18 @@ const FriendRequest = () => {
         status: 'Accepted',
       });
 
-      //* if both have sent request then both will be added to AddedUser array im databse
+      //* if both have sent request then both will be added to AddedUser array in databse
       await getDoc(doc(db,'users',user.From)).then(docSnap=>{
         dispatch({
           type: 'AddedIfNotPresent',
-          payload: docSnap.data(),
-          payload2: currentUserDetails,
+          payload:{
+             data: docSnap.data(),
+             authUser:currentUserDetails
+          }
         })
       });
+
     } catch (error) {
-     
       //* if current user have not sent request then then an request is sent Accepted
       const id = `${currentUserDetails.uid +" "+ user.From}`
       await setDoc(doc(db,'Friend-Request',id),{
@@ -58,8 +62,10 @@ const FriendRequest = () => {
       await getDoc(doc(db,'users',user.From)).then(docSnap=>{
         dispatch({
           type: 'AddedIfNotPresent',
-          payload: docSnap.data(),
-          payload2: currentUserDetails,
+          payload:{
+            data: docSnap.data(),
+            authUser:currentUserDetails
+         }
         })
       });
     }
@@ -88,10 +94,12 @@ const FriendRequest = () => {
   
   if(!user){
     return <Errorpage/>
+  }else if(user&&error.length >0){
+    return <Errorpage error={error}/>
   }
   return (
     <section className='friend-list'>
-            <UserRequest  requestData={requestData} auth={auth} AcceptRequestHandler={AcceptRequestHandler} RejectRequestHandler={RejectRequestHandler} playNoti={playNoti}/>
+            <UserRequest  requestData={requestData} auth={auth} AcceptRequestHandler={AcceptRequestHandler} RejectRequestHandler={RejectRequestHandler} />
     </section>
   )
  
@@ -100,10 +108,9 @@ const FriendRequest = () => {
 const UserRequest=({requestData,auth,AcceptRequestHandler,RejectRequestHandler})=>{
   
   const userRequests = requestData.filter((data)=> data.to === auth.currentUser.uid && data.status === 'Request');
-
   return userRequests.length>0?(
     userRequests.map((user)=>(
-            <div className="friend-requests" key={user.uid}>
+            <div className="friend-requests" key={user.From}>
                 <div className="user-details">
                   <img src={user.avatar || profile} alt="profile" />
                   <h4>{user.name}</h4>

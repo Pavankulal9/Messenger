@@ -58,8 +58,8 @@ export const customReducer = createReducer(initialState,(builder)=>{
 
   .addCase(AddedIfNotPresent,(state,action)=>{
     state.AddedUsers.splice(0, state.AddedUsers.length);
-    const authUser = action.payload2;
-    state.AddedUsers.push(action.payload);
+    const authUser = action.payload.authUser;
+    state.AddedUsers.push(action.payload.data);
     state.AddedUsers.map((user)=>{
      const add= setDoc(doc(db,'AddedUser',user.uid,'users',auth.currentUser.uid),{
         uid: authUser.uid,

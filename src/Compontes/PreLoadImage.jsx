@@ -5,11 +5,13 @@ const PreLoadImage = ({src}) => {
 
     useEffect(()=>{
       const image = new Image();
-      image.onload = ()=>{
-        setImageLoading(false);
-      }
-      image.src = src;
-    },[src])
+        image.onload = ()=>{
+          setImageLoading(false);
+        }
+        image.src = src;
+        return ()=>{setImageLoading(true)}
+    },[src]);
+
   return (
     <>
     {

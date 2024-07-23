@@ -112,7 +112,7 @@
                 @include width-hight-setter(300px,300px);
               }
               > img{
-              @include width-hight-setter(300px,300px);
+              @include width-hight-setter();
               object-fit: cover;
               border-radius: 5px;
               }

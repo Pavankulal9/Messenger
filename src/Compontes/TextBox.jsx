@@ -4,6 +4,7 @@ import {BiUpload,BiSend} from 'react-icons/bi';
 import { db, storage } from '../firebase';
 import { Timestamp, addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 const TextBox = () => {
   const {chat,currentUserDetails} = useSelector((state) => state.userDetails);
@@ -34,30 +35,28 @@ const TextBox = () => {
       const snap = await uploadBytes(imgRef, img);
       const dUrl = await getDownloadURL(ref(storage, snap.ref.fullPath));
       url= dUrl;
-      setImg(0);
     }
 
-    if(text.length <= 0 && !img){
-      return ;
-    } else{
      const trimedText = text.trim(); 
-      if(trimedText === ""){
+      if(trimedText === "" && !img){
+        toast("Please enter text or image",{ style:{color:'white',background: '#4158D0',backgroundImage: 'linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)'}});
         return ;      
-      }
-    setText('');
-    console.log(trimedText);
+    }
+    
     try {
       await addDoc(collection(db,'Messages',id,'Chat'),{
-        text:trimedText,
+        text: trimedText,
         from: currentUserDetails.uid,
         to: user2,
         createdAt: Timestamp.fromDate(new Date()),
         media: url || '',
        });
+       setImg(0);
+       setText('');
     } catch (error) {
+      toast(error.message,{ style:{color:'white',background: '#4158D0',backgroundImage: 'linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)'}});
       console.error(error.message);
     }
-  
 
     try {
       await setDoc(doc(db,'LastMessage',id),{
@@ -71,8 +70,6 @@ const TextBox = () => {
     } catch (error) {
       console.error(error.message);
     }
-   
-  }
    
   }
   

@@ -1,53 +1,69 @@
-import React, { useContext,useEffect, useState} from 'react'
-import { useDispatch, useSelector} from 'react-redux';
-import { getAllUsersDetails, getCurrentUserDetails, getUserFriendList } from '../apiCalls';
-import AuthUserComp from '../Compontes/AuthUserComp';
-import UnAuthUserComp from '../Compontes/UnAuthUserComp';
-import IntroScreen from '../Compontes/IntroScreen';
-import {AuthContext} from '../Context/AuthContext';
-import Errorpage from './Errorpage';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getAllUsersDetails,
+  getCurrentUserDetails,
+  getUserFriendList,
+} from "../utils/apiCalls";
+import AuthUserComp from "../components/AuthUserComp";
+import UnAuthUserComp from "../components/UnAuthUserComp";
+import IntroScreen from "../components/IntroScreen";
+import ErrorPage from "./ErrorPage";
+import useAuthProvider from "../hooks/useAuthProvider";
+import Loading from "./Loading";
 
 const Home = () => {
-  const {user}= useContext(AuthContext);
-  const {currentUserDetails,intialScreenRender} = useSelector((state) => state.userDetails);
+  const { user } = useAuthProvider();
+  const { currentUserDetails, initialScreenRender } = useSelector(
+    (state) => state.userDetails
+  );
   const dispatch = useDispatch();
-  const [userFriendList,setUserFriendList] = useState([]);
-  const [error,setError]=useState('');
- 
-  useEffect(()=>{
-    setTimeout(()=>{
-      dispatch({
-        type: 'intialScreenRender'
-      });
-    },4000);
-    
-    if(user){
+  const [userFriendList, setUserFriendList] = useState([]);
+  const [stateHandler, setStateHandler] = useState({
+    loading: true,
+    error: null,
+  });
+
+  useEffect(() => {
+    if (user) {
       try {
-            getCurrentUserDetails(user.uid,dispatch);
-            getAllUsersDetails(user.uid,dispatch);
-            getUserFriendList(user.uid,setUserFriendList);
+        getCurrentUserDetails(user.uid, dispatch);
+        getAllUsersDetails(user.uid, dispatch);
+        getUserFriendList(user.uid, setUserFriendList);
+        setStateHandler({
+          loading: false,
+          error: null,
+        });
       } catch (error) {
-           setError(error.message);
-      }    
+        setStateHandler({
+          loading: false,
+          error: error.message,
+        });
+      }
     }
-  },[user,dispatch]);
 
-     if(intialScreenRender){
-       return(
-        <IntroScreen/>
-       )
-     }else if(user&&error.length > 0){
-        <Errorpage error={error}/>
-     }
-     else if(user&&currentUserDetails){
-       return (
-         <AuthUserComp userFriendList={userFriendList} currentUserDetails={currentUserDetails}/>
-       )
-     }else{
-       return (
-        <UnAuthUserComp/>
-     )}
+    setStateHandler({
+      loading: false,
+      error: null,
+    });
+  }, [user, dispatch]);
+
+  if (initialScreenRender) {
+    return <IntroScreen />;
+  } else if (stateHandler.loading) {
+    return <Loading type={"text"} />;
+  } else if (!user) {
+    return <UnAuthUserComp />;
+  } else if (stateHandler.error) {
+    return <ErrorPage error={stateHandler.error} />;
+  } else if (user && currentUserDetails) {
+    return (
+      <AuthUserComp
+        userFriendList={userFriendList}
+        currentUserDetails={currentUserDetails}
+      />
+    );
   }
-     
+};
 
-export default Home
+export default Home;

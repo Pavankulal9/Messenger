@@ -1,0 +1,39 @@
+//?SignUp Page styles
+.form-container {
+  @include width-hight-setter(100%, 93%);
+  @include flexBox();
+  > form {
+    @include width-hight-setter(40%, auto, 2rem 1rem);
+    @include flexBox(none, none, 1rem, column);
+    > h1 {
+      @include logoHeader(none, none);
+    }
+    > div {
+      > input {
+        @include width-hight-setter(95%, auto, 1rem 0.5rem);
+        border: none;
+        outline: none;
+        color: $primary-text-color;
+        background-color: $secondary-background-color;
+        border-radius: 5px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+#error-message {
+  color: red;
+}
+.submit-button {
+  text-align: center;
+  > button {
+    @include button(
+      0.8rem 1.3rem,
+      5px,
+      $primary-background-color,
+      $primary-text-color
+    );
+    font-weight: 500;
+    font-size: 0.8rem;
+  }
+}

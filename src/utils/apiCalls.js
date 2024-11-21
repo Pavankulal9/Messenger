@@ -5,7 +5,7 @@ import { getDownloadURL, uploadBytes,deleteObject,ref } from 'firebase/storage';
 export const getCurrentUserDetails =async (userId,dispatch)=>{
    try {
       await getDoc(doc(db,'users',userId)).then(docSnap=>{ dispatch({
-         type:'setCurrentUserDeatils',
+         type:'setCurrentUserDetails',
          payload: docSnap.data(),
       });});
    } catch (error) {
@@ -17,9 +17,9 @@ export const getCurrentUserDetails =async (userId,dispatch)=>{
 export const getUserFriendList =(currentUserId,setUserFriendList)=>{
    try {
       const userDetail = collection(db,'AddedUser',currentUserId,'users');
-      onSnapshot(userDetail, querrySnapShot=>{
+      onSnapshot(userDetail, querySnapShot=>{
       let usersFriendList=[];
-        querrySnapShot.forEach((doc)=>{
+        querySnapShot.forEach((doc)=>{
            usersFriendList.push(doc.data());
           });
          setUserFriendList(usersFriendList);
@@ -36,9 +36,9 @@ export const getAllUsersDetails = (currentUser,dispatch)=>{
      const getAllUsers = collection(db,'users');
      //* Creating an query for excluding current user from the users 
      const q = query(getAllUsers, where('uid','not-in',[currentUser]));
-     //* Exculding the query
-     onSnapshot(q, querrySnapShot=>{
-       querrySnapShot.forEach((doc)=>{
+     //* Excluding the query
+     onSnapshot(q, querySnapShot=>{
+       querySnapShot.forEach((doc)=>{
           dispatch({
              type:'getAllUsers',
              payload: doc.data(),
@@ -69,15 +69,15 @@ export const uploadImage= async(currentUserDetails,image)=>{
     }
 }
 
-   export const getFriendRequest =(setRequestdata)=>{
+   export const getFriendRequest =(setRequestData)=>{
       try {
          const requestRef = collection(db,'Friend-Request');
-         onSnapshot(requestRef, querrySnapShot=>{
+         onSnapshot(requestRef, querySnapShot=>{
          let data=[]
-          querrySnapShot.forEach((doc)=>{
+          querySnapShot.forEach((doc)=>{
             data.push(doc.data());
          })
-         setRequestdata(data);
+         setRequestData(data);
         });
       } catch (error) {
          console.log(error);

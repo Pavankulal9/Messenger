@@ -1,25 +1,33 @@
-import React,{useState,useEffect, createContext} from 'react'
-import {onAuthStateChanged} from 'firebase/auth';
-import {auth} from '../firebase';
+import React, { useState, useEffect, createContext } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useDispatch } from "react-redux";
 
 export const AuthContext = createContext();
 
-const AuthProvider = ({children}) => {
-    const [user,setUser]=useState(0);
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    try {
+      setTimeout(() => {
+        dispatch({
+          type: "initialScreenRender",
+        });
+      }, 4000);
+      onAuthStateChanged(auth, (user) => {
+        setUser(user);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }, [user, dispatch]);
 
-    useEffect(()=>{
-        try {
-          onAuthStateChanged(auth, user=>{
-              setUser(user);
-         });
-        } catch (error) {
-          console.error(error);
-      }
-    },[user]);
-    
   return (
-    <AuthContext.Provider value={{user,setUser}}>{children}</AuthContext.Provider>
-  )
-}
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export default AuthProvider
+export default AuthProvider;

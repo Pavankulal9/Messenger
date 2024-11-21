@@ -1,29 +1,27 @@
+import { useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import profile from "../Assets/Profile1.png";
 import logo from "../Assets/logo.webp";
 import { toast } from "react-hot-toast";
-import { getFriendRequest } from "../apiCalls";
-import { useEffect, useState, useContext, useMemo } from "react";
+import { getFriendRequest } from "../utils/apiCalls";
 import { Timestamp, doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
-import Errorpage from "./Errorpage";
-import { AuthContext } from "../Context/AuthContext";
+import { db } from "../utils/firebase";
+import ErrorPage from "./ErrorPage";
 
 const AddUser = () => {
-  const { user } = useContext(AuthContext);
   const { UserList, currentUserDetails } = useSelector(
     (state) => state.userDetails
   );
   const [searchText, setSearchText] = useState("");
-  const [requestData, setRequestdata] = useState([]);
+  const [requestData, setRequestData] = useState([]);
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     try {
-      getFriendRequest(setRequestdata);
+      getFriendRequest(setRequestData);
     } catch (error) {
-      setError(error.messaage);
+      setError(error.message);
     }
   }, []);
 
@@ -47,18 +45,17 @@ const AddUser = () => {
         sentAt: Timestamp.fromDate(new Date()),
         status: "Request",
       });
-      toast.success("Request sent succesfully");
+      toast.success("Request sent successfully");
     } catch (error) {
       console.log(error);
       toast.error("Request could not be sent!");
     }
   };
 
-  if (!user) {
-    return <Errorpage />;
-  } else if (user && error.length > 0) {
-    return <Errorpage error={error} />;
+  if (error) {
+    return <ErrorPage error={error} />;
   }
+
   return (
     <div className="request">
       <div className="search-user">

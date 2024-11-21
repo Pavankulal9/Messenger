@@ -1,28 +1,28 @@
 import {createReducer,createAction} from '@reduxjs/toolkit';
 import { setDoc,doc} from 'firebase/firestore';
-import { auth, db } from './firebase';
+import { auth, db } from '../firebase';
 
 const getAllUsers = createAction('getAllUsers');
-const setCurrentUserDeatils = createAction('setCurrentUserDeatils');
+const setCurrentUserDetails = createAction('setCurrentUserDetails');
 const  AcceptedUser = createAction ('AcceptedUser');
 const AddedIfNotPresent = createAction('AddedIfNotPresent');
 const addChats = createAction('addChats');
 const clearCurrentUserDetails = createAction('clearCurrentUserDetails');
 const addCurrentUserId =  createAction('addCurrentUserId');
-const intialScreenRender = createAction('intialScreenRender');
+const initialScreenRender = createAction('initialScreenRender');
 
 const initialState = {
     currentUserDetails: null,
     UserList: [],
     AddedUsers: [],
     chat:'',
-    intialScreenRender: true
+    initialScreenRender: true
 }
 
 export const customReducer = createReducer(initialState,(builder)=>{
   builder
-  .addCase(intialScreenRender,(state)=>{
-    state.intialScreenRender = false;
+  .addCase(initialScreenRender,(state)=>{
+      state.initialScreenRender = false;
   })
 
   .addCase(getAllUsers,(state,action)=>{
@@ -39,7 +39,7 @@ export const customReducer = createReducer(initialState,(builder)=>{
      state.currentUserId = action.payload;
    })
 
-  .addCase(setCurrentUserDeatils,(state,action)=>{
+  .addCase(setCurrentUserDetails,(state,action)=>{
     state.currentUserDetails = action.payload;
   })
   

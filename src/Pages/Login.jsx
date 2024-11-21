@@ -1,103 +1,107 @@
-import React, { useContext, useState } from 'react';
-import {useFormik} from 'formik';
-import {toast} from 'react-hot-toast';
-import {signInWithEmailAndPassword} from "firebase/auth";
-import {updateDoc,doc} from 'firebase/firestore';
-import { loginValidation } from '../Schemas/loginValidation';
-import { auth, db } from '../firebase';
-import { useNavigate } from 'react-router-dom';
-import wav from '../Assets/notification.wav'
-import {AuthContext} from '../Context/AuthContext';
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import { toast } from "react-hot-toast";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { updateDoc, doc } from "firebase/firestore";
+import { loginValidation } from "../schema";
+import { auth, db } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import wav from "../Assets/notification.wav";
+import useAuthProvider from "../hooks/useAuthProvider";
+import FormCreator from "../components/FormCreator";
+
+const initialValues = {
+  email: "",
+  password: "",
+  confirm_password: "",
+};
+
+const inputs = [
+  {
+    name: "email",
+    type: "email",
+    label: "Email",
+    placeholder: "Enter Email",
+  },
+  {
+    name: "password",
+    type: "password",
+    label: "Password",
+    placeholder: "Enter Password",
+  },
+];
+
 const Login = () => {
+  const { user, setUser } = useAuthProvider();
+  const navigate = useNavigate();
+  const [formHandler, setFormHandler] = useState({
+    loading: false,
+    error: null,
+  });
 
-const {setUser} = useContext(AuthContext);
-const navigate = useNavigate();
-const [error,setError]=useState(false);
-const [loading,setLoading]=useState(false);
+  const NotificationSound = new Audio(wav);
 
- const initialValues ={
-    email:'',
-    password:'',
-    confirm_password:'',
- }
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: loginValidation,
+    onSubmit: async (value, action) => {
+      try {
+        setFormHandler({
+          loading: true,
+          error: null,
+        });
 
- const playNoti = new Audio(wav);
+        const userLoginData = await signInWithEmailAndPassword(
+          auth,
+          value.email,
+          value.password
+        );
 
-    const {values,errors,handleBlur,handleChange,handleSubmit,touched} = useFormik({
-        initialValues: initialValues,
-        validationSchema: loginValidation,
-        onSubmit: async(value,action)=>{
-          try {
-            setLoading(true);
-            const userLoginData = await signInWithEmailAndPassword(
-              auth,
-              value.email,
-              value.password,
-            );
-              
-            await updateDoc(doc(db,'users', userLoginData.user.uid),{
-                isOnline: true,
-              })
-              setError(false);
-              setLoading(false);
-              action.resetForm();
-              toast.success("Login sucessfull",{ style:{color:'white',background: '#4158D0',
-              backgroundImage: 'linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)'}});
-              playNoti.play();
-              setUser(userLoginData.user);
-              navigate('/');
-         } catch (error) {
-          setLoading(false);
-          setError(error.message.slice(9));
-         }
-        }
-    });
+        await updateDoc(doc(db, "users", userLoginData.user.uid), {
+          isOnline: true,
+        });
 
-    
+        setFormHandler({
+          loading: false,
+          error: null,
+        });
+        action.resetForm();
+
+        toast.success("Login sucessfull", {
+          style: {
+            color: "white",
+            background: "#4158D0",
+            backgroundImage:
+              "linear-gradient(100deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
+          },
+        });
+
+        NotificationSound.play();
+        setUser(userLoginData.user);
+        navigate("/");
+      } catch (error) {
+        setFormHandler({
+          loading: false,
+          error: error.message.slice(9),
+        });
+      }
+    },
+  });
+
+  if (user) {
+    navigate("/", { replace: true });
+  }
+
   return (
-    <div className="signUp-contanier">
-    <form onSubmit={handleSubmit}>
-        <h1>Login</h1>
+    <FormCreator
+      formik={formik}
+      title={"Sign-In"}
+      loading={formHandler.loading}
+      errorMessage={formHandler.error}
+      inputs={inputs}
+      buttonText={"Sign-In"}
+    />
+  );
+};
 
-      <div className="input-block">
-        <input 
-         type='email' 
-         name='email' 
-         id='email'
-         placeholder='Email'
-         value={values.email}
-         onChange={handleChange}
-         onBlur={handleBlur} 
-         />
-         {
-            errors.email && touched.email ? <p>{errors.email}</p>: null
-         }
-      </div>
-      <div className="input-block">
-        <input 
-         type='password' 
-         name='password' 
-         id='password'
-         placeholder='Password'
-         value={values.password}
-         onChange={handleChange}
-         onBlur={handleBlur}
-         />
-         {
-            errors.password && touched.password ? <p>{errors.password}</p>: null
-         }
-         {
-            error && <p>{error}</p>
-         }
-      </div>
-      <div className='submite-button'>
-        <button type='submit' disabled={loading}>{loading? 'Logging...':'Login'}</button>
-      </div>
-    </form>
-
-    </div>
-  )
-}
-
-export default Login
-
+export default Login;

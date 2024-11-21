@@ -1,17 +1,17 @@
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Navbar from "./Layouts/Navbar";
+import Navbar from "./layout/Navbar";
 import { lazy } from "react";
-import Home from "./Pages/Home";
+import Home from "./pages/Home";
 import "./style/App.scss";
-import Loading from "./Pages/Loading";
+import Loading from "./pages/Loading";
 import RequiredAuth from "./components/RequiredAuth";
-const Signup = lazy(() => import("./Pages/Signup"));
-const Login = lazy(() => import("./Pages/Login"));
-const Profile = lazy(() => import("./Pages/Profile"));
-const AddUser = lazy(() => import("./Pages/AddUser"));
-const FriendRequest = lazy(() => import("./Pages/FriendRequest"));
+const Signup = lazy(() => import("./pages/Signup"));
+const Login = lazy(() => import("./pages/Login"));
+const Profile = lazy(() => import("./pages/Profile"));
+const AddUser = lazy(() => import("./pages/AddUser"));
+const FriendRequest = lazy(() => import("./pages/FriendRequest"));
 
 function App() {
   return (

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { db } from "../utils/firebase";
 import { useSelector } from "react-redux";
 import PreLoadImage from "./PreLoadImage";
-import Loading from "../Pages/Loading";
+import Loading from "../pages/Loading";
 
 const Messages = () => {
   const { chat, currentUserDetails } = useSelector(

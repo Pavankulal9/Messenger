@@ -45,8 +45,8 @@ const TextBox = () => {
       url = dUrl;
     }
 
-    const trimedText = text.trim();
-    if (trimedText === "" && !img) {
+    const trimmedText = text.trim();
+    if (trimmedText === "" && !img) {
       toast("Please enter text or image", {
         style: {
           color: "white",
@@ -60,7 +60,7 @@ const TextBox = () => {
 
     try {
       await addDoc(collection(db, "Messages", id, "Chat"), {
-        text: trimedText,
+        text: trimmedText,
         from: currentUserDetails.uid,
         to: user2,
         createdAt: Timestamp.fromDate(new Date()),
@@ -82,7 +82,7 @@ const TextBox = () => {
 
     try {
       await setDoc(doc(db, "LastMessage", id), {
-        text: trimedText,
+        text: trimmedText,
         from: currentUserDetails.uid,
         to: user2,
         createdAt: Timestamp.fromDate(new Date()),

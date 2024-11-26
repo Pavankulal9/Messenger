@@ -17,7 +17,7 @@ const FormCreator = ({
         <h1>{title}</h1>
         {inputs &&
           inputs.map((input) => (
-            <div className="input-block">
+            <div className="input-block" key={input.name}>
               <label htmlFor={input.name}>{input.label}</label>
               <input
                 type={input.type}
